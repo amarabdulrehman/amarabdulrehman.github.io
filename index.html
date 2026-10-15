@@ -3,53 +3,71 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Amar Abdur Rehman | Full-Stack & Python Engineer</title>
-<meta name="description" content="Full-stack and Python engineer in Islamabad. Built ToffeeOS, restaurant software that two cafés run 200+ orders a day on. Open to remote roles.">
-<meta property="og:title" content="Amar Abdur Rehman | Full-Stack & Python Engineer">
-<meta property="og:description" content="I build software that real businesses run on every day. ToffeeOS, RecruitAI, computer vision and more. Open to remote roles.">
+<title>Amar Abdur Rehman | Full-Stack &amp; Python Engineer</title>
+<meta name="description" content="Full-stack and Python engineer in Islamabad. Built ToffeeOS, restaurant software two cafés run 200+ orders a day on, plus websites and AI tools for 20+ paying clients. Open to remote roles.">
+<meta property="og:title" content="Amar Abdur Rehman | Full-Stack &amp; Python Engineer">
+<meta property="og:description" content="I build software that real businesses run on every day. ToffeeOS, RecruitAI, computer vision and client websites. Open to remote roles.">
 <meta property="og:url" content="https://amarabdurrehman.me">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://amarabdurrehman.me/og.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1117'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='15' fill='%2338bd94' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0d1117;--panel:#131a22;--line:#222c37;--ink:#e6edf3;--mute:#9da7b3;--acc:#38bd94;--acc2:#7ee0bf}
+:root{--bg:#0d1117;--panel:#131a22;--panel2:#18212b;--line:#222c37;--ink:#e6edf3;--mute:#9da7b3;--acc:#38bd94;--acc2:#7ee0bf}
 *{box-sizing:border-box}html{scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(900px 500px at 85% -10%,rgba(56,189,148,.14),transparent 60%),linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);background-size:auto,44px 44px,44px 44px;z-index:-1}
 a{color:var(--acc2);text-decoration:none}a:hover{text-decoration:underline}
-.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
-nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+a:focus-visible,.btn:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1080px;margin:0 auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;gap:16px}
 nav .logo{font-family:'JetBrains Mono',monospace;color:var(--acc);font-size:15px}
-nav .links a{color:var(--mute);margin-left:22px;font-size:14px}
+nav .links{display:flex;align-items:center;gap:22px}
+nav .links a{color:var(--mute);font-size:14px}
+nav .links a.cv{color:var(--ink);border:1px solid var(--line);padding:6px 12px;border-radius:8px}
 .mono{font-family:'JetBrains Mono',monospace}
-header{padding:70px 0 50px}
+header.hero{display:grid;grid-template-columns:1.35fr .65fr;gap:40px;align-items:center;padding:56px 0 40px}
 .kicker{font-family:'JetBrains Mono',monospace;color:var(--acc);font-size:14px;margin-bottom:16px}
-h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(36px,6vw,64px);line-height:1.04;letter-spacing:-.02em;margin:0 0 22px}
+h1{font-family:'Space Grotesk',sans-serif;font-size:clamp(38px,6vw,66px);line-height:1.03;letter-spacing:-.02em;margin:0 0 22px;text-wrap:balance}
 h1 span{color:var(--acc)}
-.lead{font-size:19px;color:var(--mute);max-width:640px;margin:0 0 30px}
+.lead{font-size:19px;color:var(--mute);max-width:620px;margin:0 0 30px}
 .cta{display:flex;gap:12px;flex-wrap:wrap}
 .btn{display:inline-block;padding:12px 20px;border-radius:8px;font-weight:600;font-size:15px}
 .btn.primary{background:var(--acc);color:#06261b}.btn.primary:hover{text-decoration:none;background:var(--acc2)}
 .btn.ghost{border:1px solid var(--line);color:var(--ink)}.btn.ghost:hover{text-decoration:none;border-color:var(--acc)}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:20px 0 80px}
+.portrait{position:relative;justify-self:center;width:min(300px,100%);aspect-ratio:486/600;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,rgba(56,189,148,.18),rgba(56,189,148,.02))}
+.portrait img{width:100%;height:100%;object-fit:cover;object-position:top;display:block}
+.portrait .badge{position:absolute;left:12px;bottom:12px;font-family:'JetBrains Mono',monospace;font-size:12px;background:rgba(13,17,23,.85);border:1px solid var(--line);color:var(--acc);padding:4px 10px;border-radius:999px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0 80px}
 .stat{background:var(--panel);padding:22px}
-.stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:32px;color:var(--ink)}
+.stat b{display:block;font-family:'Space Grotesk',sans-serif;font-size:32px;color:var(--ink);font-variant-numeric:tabular-nums}
 .stat span{color:var(--mute);font-size:14px}
 h2{font-family:'Space Grotesk',sans-serif;font-size:30px;margin:0 0 8px;letter-spacing:-.01em}
 .sub{color:var(--mute);margin:0 0 28px}
 section{padding:0 0 80px}
-.feature{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px;margin-bottom:22px}
+.feature{display:grid;grid-template-columns:1.25fr 1fr;gap:28px;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px;margin-bottom:22px}
 .feature h3,.card h3{font-family:'Space Grotesk',sans-serif;font-size:22px;margin:0 0 6px}
 .tag{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--acc);border:1px solid rgba(56,189,148,.35);border-radius:999px;padding:2px 10px;margin:0 6px 6px 0}
-ul.pts{margin:14px 0 0;padding-left:18px;color:var(--ink)}ul.pts li{margin:6px 0}
+ul.pts{margin:14px 0 0;padding-left:18px}ul.pts li{margin:6px 0}
 .facts{border-left:1px solid var(--line);padding-left:24px}
 .facts div{margin-bottom:16px}.facts b{font-family:'Space Grotesk',sans-serif;font-size:26px;display:block}.facts span{color:var(--mute);font-size:14px}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:24px}
-.card p{color:var(--mute);margin:8px 0 12px}
+.links-row{display:flex;gap:18px;flex-wrap:wrap;margin-top:16px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;display:flex;flex-direction:column;min-width:0}
+.card p{color:var(--mute);margin:8px 0 12px;flex:1}
 .card .role{font-size:13px;color:var(--mute);font-family:'JetBrains Mono',monospace}
+.card .go{font-size:14px}
+.sites{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.site{display:flex;flex-direction:column;gap:4px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;color:var(--ink);min-width:0}
+.site:hover{text-decoration:none;border-color:var(--acc);background:var(--panel2)}
+.site b{font-family:'Space Grotesk',sans-serif;font-size:18px}
+.site span{color:var(--mute);font-size:14px}
+.site .url{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--acc2);margin-top:6px;overflow-wrap:anywhere}
+.more{display:grid;grid-template-columns:repeat(2,1fr);gap:0 28px}
+.more div{padding:14px 0;border-top:1px solid var(--line)}
+.more b{font-weight:600}.more span{display:block;color:var(--mute);font-size:14px}
 .timeline .item{display:grid;grid-template-columns:170px 1fr;gap:20px;padding:18px 0;border-top:1px solid var(--line)}
 .timeline .when{font-family:'JetBrains Mono',monospace;color:var(--mute);font-size:14px}
 .timeline h4{margin:0;font-size:17px}.timeline p{margin:4px 0 0;color:var(--mute)}
@@ -57,19 +75,25 @@ ul.pts{margin:14px 0 0;padding-left:18px;color:var(--ink)}ul.pts li{margin:6px 0
 .stack span{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-size:14px}
 .contact{background:linear-gradient(135deg,rgba(56,189,148,.14),rgba(56,189,148,.03));border:1px solid rgba(56,189,148,.3);border-radius:16px;padding:40px;text-align:center}
 .contact h2{font-size:34px}
+.contact .mail{font-family:'JetBrains Mono',monospace;color:var(--ink);font-size:15px;margin:0 0 20px;user-select:all}
 footer{color:var(--mute);font-size:13px;text-align:center;padding:30px 0 50px}
-@media (max-width:760px){.stats{grid-template-columns:repeat(2,1fr)}.feature{grid-template-columns:1fr}.facts{border-left:0;border-top:1px solid var(--line);padding:20px 0 0}.grid{grid-template-columns:1fr}.timeline .item{grid-template-columns:1fr;gap:4px}nav .links{display:none}.contact{padding:28px 20px}}
+@media (max-width:900px){.grid,.sites{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:760px){header.hero{grid-template-columns:1fr;padding-top:28px}.portrait{order:-1;width:180px}.stats{grid-template-columns:repeat(2,1fr)}.feature{grid-template-columns:1fr}.facts{border-left:0;border-top:1px solid var(--line);padding:20px 0 0}.grid,.sites,.more{grid-template-columns:1fr}.timeline .item{grid-template-columns:1fr;gap:4px}nav .links a:not(.cv){display:none}.contact{padding:28px 20px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
 <body>
 <div class="wrap">
-<nav><div class="logo">amar@abdurrehman:~$</div><div class="links"><a href="#work">Work</a><a href="#experience">Experience</a><a href="#stack">Stack</a><a href="#contact">Contact</a></div></nav>
+<nav><div class="logo">amar@abdurrehman:~$</div><div class="links"><a href="#work">Work</a><a href="#websites">Websites</a><a href="#experience">Experience</a><a href="#contact">Contact</a><a class="cv" href="/cv.pdf">Download CV</a></div></nav>
 
-<header>
+<header class="hero">
+<div>
 <div class="kicker">// full-stack &amp; python engineer · Islamabad · open to remote roles</div>
 <h1>I build software that real businesses <span>run on every day.</span></h1>
 <p class="lead">I'm Amar, a final-year CS student at COMSATS Islamabad. Two cafés take 200+ orders a day on the restaurant system I built, and I've shipped software for 20+ paying clients since 2024.</p>
-<div class="cta"><a class="btn primary" href="mailto:amarabdulrehman123@gmail.com?subject=Role%20for%20Amar">Email me about a role</a><a class="btn ghost" href="https://www.linkedin.com/in/amarabdurrehman/">LinkedIn</a><a class="btn ghost" href="https://github.com/amarabdulrehman">GitHub</a></div>
+<div class="cta"><a class="btn primary" href="mailto:amarabdulrehman123@gmail.com?subject=Role%20for%20Amar">Email me about a role</a><a class="btn ghost" href="/cv.pdf">Download CV</a><a class="btn ghost" href="https://www.linkedin.com/in/amarabdurrehman/">LinkedIn</a><a class="btn ghost" href="https://github.com/amarabdulrehman">GitHub</a></div>
+</div>
+<div class="portrait"><img src="/portrait.jpg" alt="Amar Abdur Rehman" width="486" height="600" onerror="this.parentElement.remove()"><span class="badge">● available for remote work</span></div>
 </header>
 
 <div class="stats">
@@ -89,11 +113,11 @@ footer{color:var(--mute);font-size:13px;text-align:center;padding:30px 0 50px}
 <div><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Prisma</span><span class="tag">Supabase</span><span class="tag">Playwright</span><span class="tag">Vercel</span></div>
 <p>Multi-tenant restaurant software that runs SPILL and Loom in Bahawalpur, Pakistan: the till, the kitchen screen, inventory, delivery riders, QR table ordering and reports.</p>
 <ul class="pts">
-<li>Keeps taking orders and cash payments when the internet drops, then syncs when it's back.</li>
-<li>Applies Punjab's 16% cash / 8% card tax split before the bill prints.</li>
-<li>333 Playwright end-to-end tests and 228 Vitest unit tests run before every release.</li>
+<li>Keeps taking orders and cash payments when the internet drops.</li>
+<li>Applies Punjab's 16% cash / 8% card tax split on every bill.</li>
+<li>333 Playwright end-to-end tests and 228 Vitest unit tests run before every release. They caught a Prisma transaction timeout before it reached production.</li>
 </ul>
-<p style="margin-top:16px"><a href="https://toffeeos.com">toffeeos.com →</a></p>
+<div class="links-row"><a href="https://toffeeos.com">toffeeos.com →</a><a href="/toffeeos-case-study.pdf">Read the case study (PDF) →</a></div>
 </div>
 <div class="facts">
 <div><b>2</b><span>live cafés: SPILL and Loom</span></div>
@@ -103,12 +127,36 @@ footer{color:var(--mute);font-size:13px;text-align:center;padding:30px 0 50px}
 </div>
 
 <div class="grid">
-<div class="card"><h3>RecruitAI</h3><div class="role">Python · Flask · NLP</div><p>Ranks up to 1,000 resumes against a job description in one batch with TF-IDF and cosine similarity. No per-resume API cost, and every score traces back to the exact terms that matched.</p></div>
-<div class="card"><h3>Automated E-Challan</h3><div class="role">Python · OpenCV · OCR</div><p>Computer vision that flags drivers without seatbelts, reads the number plate with OCR and pulls the owner's record to issue the challan automatically.</p></div>
-<div class="card"><h3>AutoTwin (final-year project)</h3><div class="role">Unreal Engine 5.5 · FastAPI · MQTT · Flutter</div><p>Zero-trust security sandbox: a JSON floor plan becomes a 3D building where 50+ simulated agents pass access checkpoints while attacks run. I lead the frontend and analytics, including the Command Center.</p></div>
-<div class="card"><h3>spillpk.com</h3><div class="role">Next.js · Vercel</div><p>Scroll-driven brand site for a specialty coffee house, with a scan-to-join digital loyalty card. No app to install and no paper card to lose. <a href="https://spillpk.com">Visit →</a></p></div>
-<div class="card"><h3>DentalOS</h3><div class="role">Next.js · TypeScript · Supabase · in development</div><p>Multi-tenant dental clinic software: scheduling, billing and inventory with restock reminders, with WhatsApp appointment reminders in progress.</p></div>
+<div class="card"><h3>RecruitAI</h3><div class="role">Python · Flask · NLP</div><p>Ranks up to 1,000 resumes against a job description in one batch with TF-IDF and cosine similarity. No per-resume API cost, and every score traces back to the terms that matched.</p><a class="go" href="https://screenerresume.vercel.app/">Live demo →</a></div>
+<div class="card"><h3>Automated E-Challan</h3><div class="role">Python · OpenCV · OCR</div><p>Computer vision that flags drivers without seatbelts, reads the number plate with OCR and pulls the owner's record to issue the challan with no manual steps.</p></div>
+<div class="card"><h3>AutoTwin (final-year project)</h3><div class="role">Unreal Engine 5.5 · FastAPI · MQTT · Flutter</div><p>Zero-trust security sandbox: a JSON floor plan becomes a 3D building where 50+ simulated agents pass access checkpoints while attacks run. I lead the frontend and analytics.</p></div>
+<div class="card"><h3>Real-time Object Detection</h3><div class="role">Python · OpenCV · YOLO · PyTorch</div><p>Detects and labels 50+ types of real-world objects from live video.</p></div>
+<div class="card"><h3>DentalOS</h3><div class="role">Next.js · TypeScript · Supabase · in development</div><p>Multi-tenant dental clinic software: scheduling, billing and inventory, with WhatsApp appointment reminders in progress.</p></div>
 <div class="card"><h3>Parallel computing</h3><div class="role">C / C++ · OpenMP · MPI · AWS EC2</div><p>C++ programs parallelised with OpenMP and run on AWS EC2, plus distributed-memory MPI programs in C.</p></div>
+</div>
+</section>
+
+<section id="websites">
+<h2>Websites I've shipped</h2>
+<p class="sub">Fast, mobile-first sites for cafés, restaurants and local businesses. All live, click through.</p>
+<div class="sites">
+<a class="site" href="https://spillpk.com"><b>SPILL</b><span>Specialty coffee, Bahawalpur. Scroll-driven story and a QR scan-to-join loyalty card.</span><span class="url">spillpk.com</span></a>
+<a class="site" href="https://blancoo.vercel.app/"><b>Blanco Bake Shop</b><span>Bakery and café, Wah Cantt. Menu, custom cake requests and FoodPanda ordering.</span><span class="url">blancoo.vercel.app</span></a>
+<a class="site" href="https://brula.vercel.app/"><b>Brula by Janan</b><span>Boutique coffee shop, Bahawalpur. Editorial menu and space.</span><span class="url">brula.vercel.app</span></a>
+<a class="site" href="https://alkousarproperties.vercel.app/"><b>Al-Kousar Properties</b><span>DHA Bahawalpur dealer. 180+ listings, services and lead forms.</span><span class="url">alkousarproperties.vercel.app</span></a>
+<a class="site" href="https://cakooo.vercel.app/"><b>CAKOO</b><span>Bakery and wood-fired pizza, Wah Cantt. Full menu with WhatsApp ordering.</span><span class="url">cakooo.vercel.app</span></a>
+<a class="site" href="https://trimtown.vercel.app/"><b>The Trim Town Studio</b><span>Barbershop, Bahawalpur. Redesign concept with one-tap booking.</span><span class="url">trimtown.vercel.app</span></a>
+</div>
+</section>
+
+<section id="more">
+<h2>More projects</h2>
+<p class="sub">Machine learning, mobile and security work from coursework and my own time.</p>
+<div class="more">
+<div><b>Face Mask Detection</b><span>Real-time deep learning on live video, with visual and audio alerts.</span></div>
+<div><b>Heart Disease Prediction</b><span>Classification models estimating risk from healthcare data.</span></div>
+<div><b>Melodify</b><span>Offline music app in Flutter with caching and background playback.</span></div>
+<div><b>File Security Tool</b><span>Python tool for file encryption and access control.</span></div>
 </div>
 </section>
 
@@ -116,23 +164,24 @@ footer{color:var(--mute);font-size:13px;text-align:center;padding:30px 0 50px}
 <h2>Experience</h2>
 <p class="sub">Shipping for clients while finishing a CS degree.</p>
 <div class="item"><div class="when">2024 – now</div><div><h4>Founder · Krimsols</h4><p>Websites, restaurant software and AI tools for cafés, restaurants and small businesses. 20+ paying clients.</p></div></div>
-<div class="item"><div class="when">Jul – Sep 2026</div><div><h4>AI/ML Intern · GOFTECH Solutions (remote)</h4><p>Data preprocessing, building and testing ML models in Python, analysing results, and applying AI to real project requirements.</p></div></div>
+<div class="item"><div class="when">Jul – Sep 2026</div><div><h4>AI/ML Intern · GOFTECH Solutions (remote)</h4><p>Built RecruitAI; data preprocessing, ML models in Python and batch processing at scale.</p></div></div>
 <div class="item"><div class="when">Mar – Apr 2025</div><div><h4>Python Developer Intern · CodeAlpha (remote)</h4><p>Python automation and scripting on real-world projects, with SQL.</p></div></div>
 <div class="item"><div class="when">2023 – now</div><div><h4>Web Developer · Evangeline media</h4><p>Part-time web development and social media.</p></div></div>
-<div class="item"><div class="when">2023 – 2027</div><div><h4>BS Computer Science · COMSATS University Islamabad</h4><p>Final year. Coursework includes Parallel and Distributed Computing and Advanced Web Development.</p></div></div>
+<div class="item"><div class="when">2023 – 2027</div><div><h4>BS Computer Science · COMSATS University Islamabad</h4><p>Final year, graduating July 2027. Coursework includes Parallel and Distributed Computing and Advanced Web Development.</p></div></div>
 </section>
 
 <section id="stack">
 <h2>Stack</h2>
 <p class="sub">What I use day to day.</p>
-<div class="stack"><span>Python</span><span>TypeScript</span><span>Next.js</span><span>React</span><span>FastAPI</span><span>Flask</span><span>PostgreSQL</span><span>Supabase</span><span>Prisma</span><span>Tailwind CSS</span><span>Playwright</span><span>Vitest</span><span>OpenCV</span><span>scikit-learn / NLP</span><span>Flutter</span><span>C++</span><span>Git</span><span>Vercel</span><span>AWS EC2</span></div>
+<div class="stack"><span>Python</span><span>TypeScript</span><span>Next.js</span><span>React</span><span>FastAPI</span><span>Flask</span><span>Node.js</span><span>PostgreSQL</span><span>Supabase</span><span>Prisma</span><span>Tailwind CSS</span><span>Playwright</span><span>Vitest</span><span>pytest</span><span>OpenCV</span><span>PyTorch</span><span>Flutter</span><span>C++</span><span>Git</span><span>Vercel</span><span>AWS EC2</span></div>
 </section>
 
 <section id="contact">
 <div class="contact">
 <h2>Hiring a remote engineer?</h2>
-<p class="sub" style="margin:8px auto 24px;max-width:520px">Send me the role and I'll send back the projects and code that fit it.</p>
-<div class="cta" style="justify-content:center"><a class="btn primary" href="mailto:amarabdulrehman123@gmail.com?subject=Role%20for%20Amar">amarabdulrehman123@gmail.com</a><a class="btn ghost" href="https://www.linkedin.com/in/amarabdurrehman/">LinkedIn</a></div>
+<p class="sub" style="margin:8px auto 18px;max-width:520px">Send me the role and I'll send back the projects and code that fit it.</p>
+<p class="mail">amarabdulrehman123@gmail.com</p>
+<div class="cta" style="justify-content:center"><a class="btn primary" href="mailto:amarabdulrehman123@gmail.com?subject=Role%20for%20Amar">Email me</a><a class="btn ghost" href="/cv.pdf">Download CV</a><a class="btn ghost" href="https://www.linkedin.com/in/amarabdurrehman/">LinkedIn</a></div>
 </div>
 </section>
 </div>
