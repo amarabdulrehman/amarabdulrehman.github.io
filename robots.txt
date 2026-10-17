@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://amarabdurrehman.me/sitemap.xml
