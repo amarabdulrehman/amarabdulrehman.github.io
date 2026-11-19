@@ -10,7 +10,7 @@ import { MotionConfig, motion, useReducedMotion, useScroll, useSpring, useTransf
 import { ArrowUpRight } from "lucide-react";
 import { useRef } from "react";
 import { websites, type Website } from "@/lib/content";
-import { Reveal } from "./motion";
+import { SectionHeader } from "./section-header";
 
 const host = (url: string) => url.replace(/^https?:\/\//, "").replace(/\/$/, "");
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
@@ -31,15 +31,19 @@ export function Websites() {
   const progress = useSpring(scrollYProgress, { stiffness: 380, damping: 48, mass: 0.35 });
 
   return (
-    <section id="websites" aria-labelledby="websites-title" className="bg-bg-alt">
-      <div className="container-apple pt-28 text-center sm:pt-36">
-        <Reveal>
-          <p className="eyebrow">Client work · all live</p>
-          <h2 id="websites-title" className="headline-lg mt-3">Websites I’ve shipped.</h2>
-          <p className="lede mx-auto mt-4 max-w-2xl">
-            Fast, mobile-first sites for cafés, restaurants and local businesses. Scroll through, then click to visit.
-          </p>
-        </Reveal>
+    <section id="websites" className="border-t border-line bg-bg">
+      <div className="container-apple pt-28 sm:pt-36">
+        <SectionHeader
+          id="websites"
+          className="mb-0 sm:mb-0"
+          meta={`${websites.length} sites · all live`}
+          title={
+            <>
+              Websites I’ve shipped <span className="text-muted">for real businesses.</span>
+            </>
+          }
+          summary="Fast, mobile-first sites for cafés, restaurants and local businesses. Scroll through, then click to visit."
+        />
       </div>
 
       <MotionConfig reducedMotion="user">
@@ -74,7 +78,7 @@ function Card({ w, i, count, progress, still }: { w: Website; i: number; count: 
       className="col-start-1 row-start-1 mt-[6svh] w-[min(100%,calc(78svh*16/10),1080px)] origin-[50%_25%] will-change-[transform,filter]"
       style={{ zIndex: i + 1, ...(still ? { y: stillY } : { y, rotateX, scale, filter }) }}
     >
-      <div className="relative overflow-hidden rounded-[24px] bg-bg-alt shadow-[0_50px_90px_-35px_rgba(10,12,20,0.5)]">
+      <div className="relative overflow-hidden rounded-[24px] bg-bg shadow-[0_50px_90px_-35px_rgba(10,12,20,0.5)]">
         <Image
           src={w.image}
           alt={`The ${host(w.url)} homepage`}
@@ -97,7 +101,7 @@ function Visit({ w }: { w: Website }) {
   const R = 18;
   const corner = (
     <svg aria-hidden width={R} height={R} viewBox={`0 0 ${R} ${R}`} className="block">
-      <path d={`M${R} 0 V${R} H0 A${R} ${R} 0 0 0 ${R} 0 Z`} style={{ fill: "var(--bg-alt)" }} />
+      <path d={`M${R} 0 V${R} H0 A${R} ${R} 0 0 0 ${R} 0 Z`} style={{ fill: "var(--bg)" }} />
     </svg>
   );
   return (
@@ -109,7 +113,7 @@ function Visit({ w }: { w: Website }) {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`Visit ${w.name} at ${host(w.url)} (opens in a new tab)`}
-        className="group flex items-center gap-4 rounded-tl-[20px] bg-bg-alt py-3 pl-5 pr-1 text-fg outline-none sm:gap-5 sm:py-4 sm:pl-7"
+        className="group flex items-center gap-4 rounded-tl-[20px] bg-bg py-3 pl-5 pr-1 text-fg outline-none sm:gap-5 sm:py-4 sm:pl-7"
       >
         <span className="flex flex-col leading-tight">
           <span className="text-[16px] font-semibold tracking-[-0.015em] sm:text-[19px]">{w.name}</span>

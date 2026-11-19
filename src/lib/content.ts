@@ -21,9 +21,23 @@ export const profile = {
     "I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés take 200+ orders a day on the restaurant system I built, and I’ve shipped software for 20+ clients since 2024.",
 };
 
-/** Scroll-lit statement under the hero. Words wrapped in *asterisks* get the gradient. */
-export const statement =
-  "Two cafés take *200+ orders a day* on software I built. *561 tests* run before every release. And *20+ clients* have shipped with me since 2024.";
+/** The hero's code-style status card. Only facts stated elsewhere on the site. */
+export const config: { key: string; value: string | string[] }[] = [
+  { key: "role", value: "Full-stack & Python engineer" },
+  { key: "based", value: "Islamabad, PK · UTC+5" },
+  { key: "status", value: "Open to remote roles" },
+  { key: "shipping", value: ["ToffeeOS", "RecruitAI", "Meow Meow AI"] },
+  { key: "clients", value: "20+ since 2024" },
+  { key: "graduating", value: "July 2027 · COMSATS" },
+];
+
+/** The hero's "uptime" strip. */
+export const uptime = [
+  { value: "2", label: "cafés live on ToffeeOS" },
+  { value: "200+", label: "orders a day" },
+  { value: "561", label: "tests per release" },
+  { value: "20+", label: "clients shipped" },
+];
 
 /** Short proof points on the portrait tile. */
 export const proof = [

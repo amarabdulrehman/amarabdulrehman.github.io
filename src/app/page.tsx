@@ -5,24 +5,26 @@ import { Glance } from "@/components/glance";
 import { Hero } from "@/components/hero";
 import { Lately } from "@/components/lately";
 import { Nav } from "@/components/nav";
-import { Contact, Experience, Footer } from "@/components/sections";
+import { SectionIndex } from "@/components/section-index";
+import { Contact, Experience, Footer, Skills } from "@/components/sections";
 import { SelectedWork } from "@/components/selected-work";
-import { Statement } from "@/components/statement";
 import { Websites } from "@/components/websites";
 
 export default function Home() {
   return (
     <ChatProvider>
       <Nav />
+      <SectionIndex />
       <main id="main">
         <Hero />
-        <Statement />
+        {/* 01–08, in the order of lib/sections.ts */}
         <Glance />
         <Flagship />
         <SelectedWork />
         <Lately />
         <Websites />
         <Experience />
+        <Skills />
         <Contact />
       </main>
       <Footer />

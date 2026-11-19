@@ -44,7 +44,7 @@ export function HeroAsk() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-2xl">
+    <div className="w-full max-w-xl">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -53,7 +53,7 @@ export function HeroAsk() {
         className="ai-glow rounded-full"
       >
         <div className="flex items-center gap-3 rounded-full bg-card/95 py-2 pl-5 pr-2 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.35)]">
-          <Sparkles aria-hidden className="size-5 shrink-0 text-[#a855f7]" />
+          <Sparkles aria-hidden className="size-5 shrink-0 text-accent" />
           <label htmlFor="hero-ask" className="sr-only">Ask a question about Amar</label>
           <div className="relative min-w-0 flex-1">
             <input
@@ -92,18 +92,18 @@ export function HeroAsk() {
         </div>
       </form>
 
-      <ul className="mt-5 flex flex-wrap justify-center gap-2" aria-label="Suggested questions">
+      <ul className="mt-4 flex flex-wrap gap-2" aria-label="Suggested questions">
         {suggestedQuestions.map((q, i) => (
           <motion.li
             key={q}
             initial={reduce ? false : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: EASE, delay: 1.1 + i * 0.07 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.9 + i * 0.07 }}
           >
             <button
               type="button"
               onClick={() => ask(q)}
-              className="rounded-full bg-fg/[0.05] px-3.5 py-1.5 text-[13px] text-muted shadow-[inset_0_0_0_1px_var(--line)] transition-all duration-300 hover:bg-fg/[0.09] hover:text-fg active:scale-[0.97]"
+              className="rounded-full bg-fg/[0.04] px-3 py-1.5 font-mono text-[12px] text-muted shadow-[inset_0_0_0_1px_var(--line)] transition-all duration-300 hover:bg-fg/[0.09] hover:text-fg active:scale-[0.97]"
             >
               {q}
             </button>
@@ -124,7 +124,7 @@ export function AskTile({ className }: { className?: string }) {
       className={cn("ai-glow group block h-full w-full rounded-[calc(2rem-0.375rem)] text-left [--glow-opacity:0.35]", className)}
     >
       <span className="theme-dark flex h-full flex-col justify-between rounded-[inherit] bg-bg p-8 text-fg">
-      <span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-[#0894ff] via-[#c959dd] to-[#ff9004] text-white">
+      <span className="grid size-11 place-items-center rounded-2xl bg-accent text-accent-fg">
         <Sparkles className="size-5" />
       </span>
       <span className="mt-10 block">
@@ -204,8 +204,8 @@ export function ChatDock() {
             transition={{ type: "spring", stiffness: 380, damping: 24 }}
             className="ai-glow fixed bottom-5 right-4 z-50 rounded-full [--glow-opacity:0.7] sm:right-6"
           >
-            <span className="flex h-14 items-center gap-2.5 rounded-full bg-fg p-2 text-bg shadow-xl sm:pr-5">
-              <span className="grid size-10 place-items-center rounded-full bg-gradient-to-br from-[#0894ff] via-[#c959dd] to-[#ff9004] text-white">
+            <span className="flex h-14 items-center gap-2.5 rounded-full bg-card p-2 text-fg shadow-xl sm:pr-5">
+              <span className="grid size-10 place-items-center rounded-full bg-accent text-accent-fg">
                 {open ? <X className="size-5" /> : <Sparkles className="size-5" />}
               </span>
               <span className="hidden text-[15px] font-medium sm:inline">{open ? "Close" : "Ask Amar"}</span>

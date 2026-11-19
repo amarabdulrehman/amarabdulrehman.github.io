@@ -131,7 +131,7 @@ export function ChatPanel({ className, autoFocus }: { className?: string; autoFo
       <div ref={scroller} className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-5" aria-live="polite">
         {messages.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center text-center">
-            <span className="grid size-12 place-items-center rounded-2xl bg-gradient-to-br from-[#0071e3] to-[#bf5af2] text-white">
+            <span className="grid size-12 place-items-center rounded-2xl bg-accent text-accent-fg">
               <Sparkles className="size-5" />
             </span>
             <p className="mt-4 text-[17px] font-semibold">Hi, I’m Amar’s assistant.</p>
@@ -142,7 +142,7 @@ export function ChatPanel({ className, autoFocus }: { className?: string; autoFo
                   key={q}
                   type="button"
                   onClick={() => submit(q)}
-                  className="rounded-full border border-line px-3.5 py-1.5 text-[13px] transition-colors hover:border-accent hover:text-link"
+                  className="rounded-full border border-line px-3 py-1.5 font-mono text-[12px] transition-colors hover:border-accent hover:text-accent-text"
                 >
                   {q}
                 </button>

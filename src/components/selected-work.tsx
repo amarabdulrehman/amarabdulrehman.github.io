@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import { moreProjects, projects, recruitAI } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { EASE, Reveal } from "./motion";
+import { SectionHeader } from "./section-header";
 import { SpotlightCard } from "./ui/spotlight-card";
 
 function Ranking() {
@@ -25,7 +26,7 @@ function Ranking() {
               </div>
               <div className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-fg/[0.08]">
                 <motion.div
-                  className="h-full rounded-full bg-gradient-to-r from-[#0071e3] to-[#5e5ce6]"
+                  className="h-full rounded-full bg-accent"
                   initial={reduce ? { width: `${c.score}%` } : { width: 0 }}
                   whileInView={{ width: `${c.score}%` }}
                   viewport={{ once: true }}
@@ -49,23 +50,27 @@ const SPANS = ["lg:col-span-3", "lg:col-span-3", "lg:col-span-2", "lg:col-span-2
 
 export function SelectedWork() {
   return (
-    <section id="projects" aria-labelledby="work-title" className="section-y">
+    <section id="projects" className="section-y border-t border-line">
       <div className="container-apple">
-        <Reveal className="max-w-3xl">
-          <span className="pill-tag">Selected work</span>
-          <h2 id="work-title" className="headline-lg mt-4 text-balance">
-            Production software first. <span className="text-muted">Then the range: language, vision, simulation and systems.</span>
-          </h2>
-        </Reveal>
+        <SectionHeader
+          id="projects"
+          meta={`${projects.length + 1} featured · ${moreProjects.length} more`}
+          title={
+            <>
+              Production software first. <span className="text-muted">Then the range.</span>
+            </>
+          }
+          summary="Language, vision, simulation and systems work, from internships, coursework and my own time."
+        />
 
         {/* RecruitAI feature */}
-        <Reveal className="bezel mt-14">
+        <Reveal className="bezel">
           <SpotlightCard className="bezel-core grid items-center gap-10 overflow-hidden bg-bg-alt p-8 sm:p-12 md:grid-cols-2">
             <div>
               <p className="eyebrow">{recruitAI.kicker}</p>
               <h3 className="headline-md mt-2">{recruitAI.title}</h3>
               <p className="mt-4 text-[17px] leading-relaxed text-muted">{recruitAI.body}</p>
-              <p className="mt-6 text-[13px] font-medium">{recruitAI.tech}</p>
+              <p className="mt-6 font-mono text-[12px] text-muted">{recruitAI.tech}</p>
               <a href={recruitAI.demo} target="_blank" rel="noopener noreferrer" className="btn-primary group mt-7">
                 Live demo
                 <span className="btn-icon">
@@ -88,9 +93,9 @@ export function SelectedWork() {
                       <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-[12px] font-semibold text-link">{p.badge}</span>
                     )}
                   </div>
-                  <h3 className="mt-3 text-[24px] font-semibold tracking-[-0.03em]">{p.title}</h3>
+                  <h3 className="mt-4 text-[24px] font-semibold tracking-[-0.03em]">{p.title}</h3>
                   <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted">{p.body}</p>
-                  <p className="mt-6 text-[13px] font-medium">{p.tech}</p>
+                  <p className="mt-6 border-t border-line pt-4 font-mono text-[12px] text-muted">{p.tech}</p>
                 </SpotlightCard>
               </Reveal>
             </li>
@@ -98,8 +103,8 @@ export function SelectedWork() {
         </ul>
 
         <Reveal className="mt-20">
-          <h3 className="text-[22px] font-semibold tracking-tight">More projects</h3>
-          <p className="mt-1 text-[15px] text-muted">Machine learning, mobile and security work from coursework and my own time.</p>
+          <h3 className="eyebrow">More projects</h3>
+          <p className="mt-2 text-[15px] text-muted">Machine learning, mobile and security work from coursework and my own time.</p>
           <ul className="mt-6 grid border-t border-line sm:grid-cols-2">
             {moreProjects.map((p) => (
               <li key={p.title} className="border-b border-line py-5 sm:odd:pr-8 sm:even:pl-8">

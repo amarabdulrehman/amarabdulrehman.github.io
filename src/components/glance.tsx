@@ -6,6 +6,7 @@ import { profile, proof, stats } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { AskTile } from "./chat/ask-amar";
 import { CountUp, Reveal } from "./motion";
+import { SectionHeader } from "./section-header";
 import { SpotlightCard } from "./ui/spotlight-card";
 
 /** One bento cell: a bezel tray holding a spotlight plate. */
@@ -24,29 +25,28 @@ function Stat({ i }: { i: number }) {
   const hot = i === 0 || i === 3;
   return (
     <div className="flex h-full flex-col justify-between p-8 sm:p-9">
-      <p
-        className={cn(
-          "headline-lg bg-clip-text text-transparent",
-          hot ? "bg-gradient-to-br from-[#0894ff] via-[#7c5cf0] to-[#c959dd]" : "bg-gradient-to-br from-fg to-fg/55",
-        )}
-      >
+      <p className={cn("headline-lg", hot ? "text-accent" : "text-fg")}>
         <CountUp to={s.value} suffix={s.suffix} />
       </p>
-      <p className="mt-6 max-w-[15rem] text-[17px] font-medium leading-snug text-muted">{s.label}</p>
+      <p className="mt-6 max-w-[15rem] font-mono text-[12px] uppercase leading-relaxed tracking-[0.08em] text-muted">{s.label}</p>
     </div>
   );
 }
 
 export function Glance() {
   return (
-    <section id="about" aria-labelledby="glance-title" className="pb-28 sm:pb-36">
+    <section id="about" className="section-y">
       <div className="container-apple">
-        <Reveal className="mb-12 flex flex-col items-center text-center">
-          <span className="pill-tag">At a glance</span>
-          <h2 id="glance-title" className="headline-lg mt-4 text-balance">
-            Engineer, founder, <span className="text-muted">final-year student.</span>
-          </h2>
-        </Reveal>
+        <SectionHeader
+          id="about"
+          meta="Islamabad · UTC+5"
+          title={
+            <>
+              Engineer, founder, <span className="text-muted">final-year student.</span>
+            </>
+          }
+          summary="I founded Krimsols, which builds websites, restaurant software and AI tools for cafés, restaurants and small businesses, and I’m finishing my CS degree at COMSATS."
+        />
 
         <div className="grid gap-3 md:auto-rows-[minmax(15rem,auto)] md:grid-cols-6">
           {/* portrait */}
