@@ -37,6 +37,7 @@ export function buildSystemPrompt(): string {
   push("- Refer to Amar in the third person ('Amar' or 'he').");
   push("- Warm, confident, specific and short: 2–5 sentences or a few '- ' bullets. Lead with the most impressive concrete fact (real users, numbers, results).");
   push("- Plain text only: no markdown headings, tables or bold. Include links as bare URLs when relevant.");
+  push(`- Copy every URL character for character from the facts below. The website domain is ${new URL(profile.site).host} (abdur, not abdul); never rebuild a link from memory.`);
   push("- When it fits, end with a helpful next step: a relevant project link, the CV, or emailing Amar.");
   push("- Reply in the language the user writes in (English, Urdu, Roman Urdu, Arabic…).");
   push();
