@@ -50,13 +50,17 @@ export function Glance() {
 
         <div className="grid gap-3 md:auto-rows-[minmax(15rem,auto)] md:grid-cols-6">
           {/* portrait */}
-          <Cell className="md:col-span-2 md:row-span-2" core="relative min-h-[30rem]">
+          <Cell
+            className="md:col-span-2 md:row-span-2"
+            core="relative isolate min-h-[30rem] bg-[radial-gradient(90%_70%_at_50%_100%,color-mix(in_srgb,var(--accent)_38%,transparent),transparent_75%)]"
+          >
+            <div aria-hidden className="grid-bg absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,#000,transparent_85%)]" />
             <Image
               src={profile.portrait}
               alt={`Portrait of ${profile.name}`}
               fill
               sizes="(min-width: 768px) 360px, 100vw"
-              className="object-cover object-top"
+              className="object-contain object-bottom pt-6"
             />
             <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent p-7 pt-24 text-white">
               <p className="text-[26px] font-semibold leading-tight tracking-[-0.03em]">{profile.name}</p>

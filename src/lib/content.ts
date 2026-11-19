@@ -14,7 +14,9 @@ export const profile = {
   github: "https://github.com/amarabdulrehman",
   site: "https://amarabdurrehman.me",
   cv: "/cv.pdf",
-  portrait: "/portrait.webp",
+  whatsapp: "+92 329 1555121",
+  whatsappUrl: "https://wa.me/923291555121",
+  portrait: "/amar-cutout.webp",
   availability: "Available for remote roles",
   headline: "Software that real businesses run on.",
   intro:
