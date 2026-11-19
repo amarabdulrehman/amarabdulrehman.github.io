@@ -225,7 +225,11 @@ export const botExtras: string[] = [
   "Also built a construction-tracking desktop app with cloud backup.",
   "Next, he wants to build AI agents and vision systems that small businesses can actually rely on with real customers, in the languages those customers speak.",
   // Outside work
-  "Speaks English and Urdu. Competes in hackathons and the Huawei ICT Competition, and builds ESP32 hardware gadgets for fun, starting with a Spotify 'now playing' charm.",
+  "Speaks English and Urdu (his bots also reply in Arabic, but he doesn't speak it himself).",
+  "Outside code, he tinkers with ESP32 hardware. His first gadget is a tiny desk charm that shows whatever's playing on his Spotify. He likes taking software he uses every day off the screen and into something physical he can hold.",
+  "He got into software by building websites for local cafés and saw that most of them ran their orders on paper and WhatsApp. ToffeeOS started from that.",
+  "He regularly competes in hackathons and the Huawei ICT Competition, and likes building things under a deadline with a team.",
+  "He's curious by nature, and that curiosity usually turns into something real: noticing cafés on paper led to ToffeeOS, and noticing AI agents misread Roman Urdu (where 'kal' means both yesterday and tomorrow) led to his RUTool benchmark.",
   // Extra skills not shown on the site
   "Other skills: JavaScript, HTML/CSS, responsive and animated sites, REST APIs, webhooks, Socket.IO, SQL, LLM workflows and agents, prompt design, AI output validation, multilingual replies (English, Roman Urdu, Arabic), Gemini API, Google Sheets and Gmail APIs, Java, Rust, C#, WordPress/WooCommerce.",
   // Contact
