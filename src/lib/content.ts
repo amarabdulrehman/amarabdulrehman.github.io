@@ -21,6 +21,17 @@ export const profile = {
     "I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés take 200+ orders a day on the restaurant system I built, and I’ve shipped software for 20+ clients since 2024.",
 };
 
+/** Scroll-lit statement under the hero. Words wrapped in *asterisks* get the gradient. */
+export const statement =
+  "Two cafés take *200+ orders a day* on software I built. *561 tests* run before every release. And *20+ clients* have shipped with me since 2024.";
+
+/** Short proof points on the portrait tile. */
+export const proof = [
+  { strong: "Ships production software.", rest: "ToffeeOS runs two cafés every day." },
+  { strong: "Builds AI that behaves.", rest: "Models read; plain, tested code decides and acts." },
+  { strong: "Final-year CS at COMSATS.", rest: "Graduating July 2027." },
+];
+
 export const stats = [
   { value: 200, suffix: "+", label: "orders a day on ToffeeOS" },
   { value: 561, suffix: "", label: "automated tests before every release" },

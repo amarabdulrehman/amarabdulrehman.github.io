@@ -1,12 +1,13 @@
-import { AskAmar, ChatLauncher } from "@/components/chat/ask-amar";
+import { ChatDock } from "@/components/chat/ask-amar";
 import { ChatProvider } from "@/components/chat/chat-context";
 import { Flagship } from "@/components/flagship";
+import { Glance } from "@/components/glance";
 import { Hero } from "@/components/hero";
 import { Lately } from "@/components/lately";
 import { Nav } from "@/components/nav";
-import { Contact, Experience, Footer, Stack } from "@/components/sections";
+import { Contact, Experience, Footer } from "@/components/sections";
 import { SelectedWork } from "@/components/selected-work";
-import { Stats } from "@/components/stats";
+import { Statement } from "@/components/statement";
 import { Websites } from "@/components/websites";
 
 export default function Home() {
@@ -15,18 +16,17 @@ export default function Home() {
       <Nav />
       <main id="main">
         <Hero />
-        <Stats />
+        <Statement />
+        <Glance />
         <Flagship />
-        <Lately />
         <SelectedWork />
-        <AskAmar />
+        <Lately />
         <Websites />
         <Experience />
-        <Stack />
         <Contact />
       </main>
       <Footer />
-      <ChatLauncher />
+      <ChatDock />
     </ChatProvider>
   );
 }

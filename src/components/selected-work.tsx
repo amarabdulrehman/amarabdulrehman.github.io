@@ -3,12 +3,14 @@
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowUpRight } from "lucide-react";
 import { moreProjects, projects, recruitAI } from "@/lib/content";
+import { cn } from "@/lib/utils";
 import { EASE, Reveal } from "./motion";
+import { SpotlightCard } from "./ui/spotlight-card";
 
 function Ranking() {
   const reduce = useReducedMotion();
   return (
-    <div className="rounded-[22px] border border-line bg-bg p-6 shadow-[var(--shadow)]">
+    <div className="rounded-[22px] bg-bg p-6 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.3),inset_0_0_0_1px_var(--line)]">
       <div className="flex items-center justify-between text-[13px]">
         <span className="font-semibold">Senior Python Engineer</span>
         <span className="text-muted">1,000 resumes</span>
@@ -42,53 +44,60 @@ function Ranking() {
   );
 }
 
+// 5 projects → 3 + 3 on the first row, then 2 + 2 + 2
+const SPANS = ["lg:col-span-3", "lg:col-span-3", "lg:col-span-2", "lg:col-span-2", "lg:col-span-2"];
+
 export function SelectedWork() {
   return (
-    <section aria-labelledby="work-title" className="py-28 sm:py-36">
+    <section id="projects" aria-labelledby="work-title" className="section-y">
       <div className="container-apple">
         <Reveal className="max-w-3xl">
-          <p className="eyebrow">Selected work</p>
-          <h2 id="work-title" className="headline-lg mt-3 text-balance">
+          <span className="pill-tag">Selected work</span>
+          <h2 id="work-title" className="headline-lg mt-4 text-balance">
             Production software first. <span className="text-muted">Then the range: language, vision, simulation and systems.</span>
           </h2>
         </Reveal>
 
         {/* RecruitAI feature */}
-        <Reveal className="mt-16 grid items-center gap-10 overflow-hidden rounded-[32px] bg-bg-alt p-8 sm:p-12 md:grid-cols-2">
-          <div>
-            <p className="eyebrow">{recruitAI.kicker}</p>
-            <h3 className="headline-md mt-2">{recruitAI.title}</h3>
-            <p className="mt-4 text-[17px] leading-relaxed text-muted">{recruitAI.body}</p>
-            <p className="mt-6 text-[13px] font-medium">{recruitAI.tech}</p>
-            <a href={recruitAI.demo} target="_blank" rel="noopener noreferrer" className="btn-primary mt-6 h-10 text-[15px]">
-              Live demo <ArrowUpRight className="size-4" />
-            </a>
-          </div>
-          <Ranking />
+        <Reveal className="bezel mt-14">
+          <SpotlightCard className="bezel-core grid items-center gap-10 overflow-hidden bg-bg-alt p-8 sm:p-12 md:grid-cols-2">
+            <div>
+              <p className="eyebrow">{recruitAI.kicker}</p>
+              <h3 className="headline-md mt-2">{recruitAI.title}</h3>
+              <p className="mt-4 text-[17px] leading-relaxed text-muted">{recruitAI.body}</p>
+              <p className="mt-6 text-[13px] font-medium">{recruitAI.tech}</p>
+              <a href={recruitAI.demo} target="_blank" rel="noopener noreferrer" className="btn-primary group mt-7">
+                Live demo
+                <span className="btn-icon">
+                  <ArrowUpRight className="size-4" />
+                </span>
+              </a>
+            </div>
+            <Ranking />
+          </SpotlightCard>
         </Reveal>
 
-        <ul className="mt-5 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-3 grid gap-3 md:grid-cols-2 lg:grid-cols-6">
           {projects.map((p, i) => (
-            <li key={p.title}>
-              <Reveal
-                delay={(i % 3) * 0.08}
-                className="flex h-full flex-col rounded-[28px] border border-line p-8 transition-all duration-500 ease-apple hover:-translate-y-1 hover:shadow-[var(--shadow)]"
-              >
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="eyebrow">{p.kicker}</span>
-                  {p.badge && (
-                    <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-[12px] font-semibold text-link">{p.badge}</span>
-                  )}
-                </div>
-                <h3 className="mt-3 text-[22px] font-semibold tracking-tight">{p.title}</h3>
-                <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted">{p.body}</p>
-                <p className="mt-6 text-[13px] font-medium">{p.tech}</p>
+            <li key={p.title} className={cn(SPANS[i], i === projects.length - 1 && "md:col-span-2 lg:col-span-2")}>
+              <Reveal delay={(i % 3) * 0.08} className="bezel h-full">
+                <SpotlightCard tilt className="bezel-core flex h-full flex-col p-8">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="eyebrow">{p.kicker}</span>
+                    {p.badge && (
+                      <span className="rounded-full bg-accent/10 px-2.5 py-0.5 text-[12px] font-semibold text-link">{p.badge}</span>
+                    )}
+                  </div>
+                  <h3 className="mt-3 text-[24px] font-semibold tracking-[-0.03em]">{p.title}</h3>
+                  <p className="mt-2 flex-1 text-[15px] leading-relaxed text-muted">{p.body}</p>
+                  <p className="mt-6 text-[13px] font-medium">{p.tech}</p>
+                </SpotlightCard>
               </Reveal>
             </li>
           ))}
         </ul>
 
-        <Reveal className="mt-16">
+        <Reveal className="mt-20">
           <h3 className="text-[22px] font-semibold tracking-tight">More projects</h3>
           <p className="mt-1 text-[15px] text-muted">Machine learning, mobile and security work from coursework and my own time.</p>
           <ul className="mt-6 grid border-t border-line sm:grid-cols-2">

@@ -12,6 +12,9 @@ type ChatCtx = {
   send: (text: string) => Promise<void>;
   stop: () => void;
   reset: () => void;
+  /** Whether the floating chat panel is open. */
+  open: boolean;
+  setOpen: (open: boolean | ((o: boolean) => boolean)) => void;
 };
 
 const Ctx = createContext<ChatCtx | null>(null);
@@ -21,6 +24,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
   const abort = useRef<AbortController | null>(null);
   const history = useRef<Msg[]>([]);
 
@@ -87,7 +91,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     setStatus("idle");
   }, []);
 
-  return <Ctx.Provider value={{ messages, status, error, send, stop, reset }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ messages, status, error, send, stop, reset, open, setOpen }}>{children}</Ctx.Provider>;
 }
 
 export function useChat() {

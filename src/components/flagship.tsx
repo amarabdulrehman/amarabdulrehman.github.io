@@ -7,6 +7,7 @@ import { useRef, useState } from "react";
 import { flagship } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { Reveal } from "./motion";
+import { SpotlightCard } from "./ui/spotlight-card";
 
 export function Flagship() {
   const pin = useRef<HTMLDivElement>(null);
@@ -26,8 +27,8 @@ export function Flagship() {
     <section id="work" className="theme-dark relative bg-bg text-fg">
       <div className="container-apple pt-28 pb-10 text-center sm:pt-36">
         <Reveal>
-          <p className="eyebrow">Flagship · in production</p>
-          <h2 className="headline-xl mt-3">{flagship.name}.</h2>
+          <span className="pill-tag">Flagship · in production</span>
+          <h2 className="headline-xl mt-5">{flagship.name}.</h2>
           <p className="headline-md mx-auto mt-4 max-w-3xl bg-gradient-to-r from-[#2997ff] via-[#a78bfa] to-[#f472b6] bg-clip-text text-transparent">
             {flagship.tagline}
           </p>
@@ -85,11 +86,13 @@ export function Flagship() {
       </div>
 
       <div className="container-apple pb-28 sm:pb-36">
-        <div className="grid gap-px overflow-hidden rounded-[28px] bg-line sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-3">
           {flagship.metrics.map((m, i) => (
-            <Reveal key={m.label} delay={i * 0.08} className="bg-bg-alt p-8 text-center">
-              <p className="headline-lg">{m.value}</p>
-              <p className="mt-2 text-[15px] text-muted">{m.label}</p>
+            <Reveal key={m.label} delay={i * 0.08} className="bezel">
+              <SpotlightCard className="bezel-core h-full p-8 text-center [--spot:rgb(41_151_255/0.16)]">
+                <p className="headline-lg bg-gradient-to-b from-fg to-fg/60 bg-clip-text text-transparent">{m.value}</p>
+                <p className="mt-2 text-[15px] text-muted">{m.label}</p>
+              </SpotlightCard>
             </Reveal>
           ))}
         </div>

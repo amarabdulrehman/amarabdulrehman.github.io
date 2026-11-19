@@ -1,99 +1,171 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { CalendarDays, FileText, MessageCircle, Mic, Sparkles, X } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Reveal } from "../motion";
+import { ArrowUp, ArrowUpRight, Sparkles, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { suggestedQuestions } from "@/lib/content";
+import { cn } from "@/lib/utils";
+import { EASE } from "../motion";
 import { ChatPanel } from "./chat-panel";
+import { useChat } from "./chat-context";
 
-const COMING = [
-  { icon: CalendarDays, label: "Book a call with Amar" },
-  { icon: FileText, label: "Get a tailored CV for your role" },
-  { icon: Mic, label: "Ask out loud with voice" },
+const PLACEHOLDERS = [
+  "Ask me anything about Amar…",
+  "Is he available for remote roles?",
+  "What has he shipped to real users?",
+  "What’s his experience with AI?",
 ];
 
-/** The on-page "Ask Amar" section. */
-export function AskAmar() {
-  return (
-    <section id="ask" aria-labelledby="ask-title" className="relative overflow-hidden py-28 sm:py-36">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 opacity-60 dark:opacity-30"
-        style={{
-          background:
-            "radial-gradient(40% 50% at 80% 40%, rgb(191 90 242 / 0.18), transparent 70%), radial-gradient(40% 50% at 20% 60%, rgb(0 113 227 / 0.18), transparent 70%)",
-        }}
-      />
-      <div className="container-apple grid items-center gap-12 md:grid-cols-[0.9fr_1.1fr]">
-        <Reveal>
-          <p className="eyebrow inline-flex items-center gap-1.5">
-            <Sparkles className="size-3.5" /> New · AI assistant
-          </p>
-          <h2 id="ask-title" className="headline-lg mt-3 text-balance">
-            Ask Amar.{" "}
-            <span className="bg-gradient-to-r from-[#0071e3] via-[#5e5ce6] to-[#bf5af2] bg-clip-text text-transparent">
-              Anything.
-            </span>
-          </h2>
-          <p className="lede mt-5">
-            Recruiters, skip the scrolling. Ask about projects, skills, experience or availability, and get an answer
-            grounded in this portfolio.
-          </p>
-          <div className="mt-10">
-            <p className="eyebrow">Coming soon</p>
-            <ul className="mt-4 grid gap-3">
-              {COMING.map(({ icon: Icon, label }) => (
-                <li key={label} className="flex items-center gap-3 text-[15px] text-muted">
-                  <span className="grid size-8 place-items-center rounded-full bg-fg/[0.06]">
-                    <Icon className="size-4" />
-                  </span>
-                  {label}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </Reveal>
+/** Rotates the placeholder like a typing hint, pausing while the field has text. */
+function usePlaceholder(paused: boolean) {
+  const [i, setI] = useState(0);
+  const reduce = useReducedMotion();
+  useEffect(() => {
+    if (paused || reduce) return;
+    const t = setInterval(() => setI((n) => (n + 1) % PLACEHOLDERS.length), 3200);
+    return () => clearInterval(t);
+  }, [paused, reduce]);
+  return PLACEHOLDERS[i];
+}
 
-        <Reveal delay={0.1}>
-          <div className="h-[600px] overflow-hidden rounded-[32px] border border-line bg-glass shadow-[var(--shadow)] backdrop-blur-2xl">
-            <ChatPanel className="h-full" />
+/** The hero's "Ask me anything" bar. Submitting opens the docked chat with the answer streaming in. */
+export function HeroAsk() {
+  const { send, setOpen, status } = useChat();
+  const [value, setValue] = useState("");
+  const reduce = useReducedMotion();
+  const placeholder = usePlaceholder(value.length > 0);
+
+  const ask = (text: string) => {
+    const q = text.trim();
+    if (!q || status === "streaming") return;
+    setValue("");
+    setOpen(true);
+    void send(q);
+  };
+
+  return (
+    <div className="mx-auto w-full max-w-2xl">
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          ask(value);
+        }}
+        className="ai-glow rounded-full"
+      >
+        <div className="flex items-center gap-3 rounded-full bg-card/95 py-2 pl-5 pr-2 shadow-[0_30px_60px_-30px_rgb(0_0_0/0.35)]">
+          <Sparkles aria-hidden className="size-5 shrink-0 text-[#a855f7]" />
+          <label htmlFor="hero-ask" className="sr-only">Ask a question about Amar</label>
+          <div className="relative min-w-0 flex-1">
+            <input
+              id="hero-ask"
+              value={value}
+              maxLength={800}
+              autoComplete="off"
+              onChange={(e) => setValue(e.target.value)}
+              className="peer h-11 w-full bg-transparent text-[17px] text-fg outline-none"
+            />
+            {/* animated placeholder */}
+            {!value && (
+              <AnimatePresence initial={false}>
+                <motion.span
+                  key={placeholder}
+                  aria-hidden
+                  initial={reduce ? false : { opacity: 0, y: 8, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={reduce ? undefined : { opacity: 0, y: -8, filter: "blur(4px)" }}
+                  transition={{ duration: 0.45, ease: EASE }}
+                  className="pointer-events-none absolute inset-y-0 left-0 flex items-center truncate text-[17px] text-muted"
+                >
+                  {placeholder}
+                </motion.span>
+              </AnimatePresence>
+            )}
           </div>
-        </Reveal>
-      </div>
-    </section>
+          <button
+            type="submit"
+            disabled={!value.trim()}
+            aria-label="Ask"
+            className="grid size-11 shrink-0 place-items-center rounded-full bg-fg text-bg transition-all duration-500 ease-[var(--ease-fluid)] hover:scale-105 active:scale-95 disabled:bg-fg/10 disabled:text-muted"
+          >
+            <ArrowUp className="size-5" />
+          </button>
+        </div>
+      </form>
+
+      <ul className="mt-5 flex flex-wrap justify-center gap-2" aria-label="Suggested questions">
+        {suggestedQuestions.map((q, i) => (
+          <motion.li
+            key={q}
+            initial={reduce ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 1.1 + i * 0.07 }}
+          >
+            <button
+              type="button"
+              onClick={() => ask(q)}
+              className="rounded-full bg-fg/[0.05] px-3.5 py-1.5 text-[13px] text-muted shadow-[inset_0_0_0_1px_var(--line)] transition-all duration-300 hover:bg-fg/[0.09] hover:text-fg active:scale-[0.97]"
+            >
+              {q}
+            </button>
+          </motion.li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
-/** Floating launcher that opens the same conversation anywhere on the page. */
-export function ChatLauncher() {
-  const [open, setOpen] = useState(false);
-  const [visible, setVisible] = useState(false);
+/** Bento tile that invites a question, used in the "At a glance" grid. */
+export function AskTile({ className }: { className?: string }) {
+  const { setOpen } = useChat();
+  return (
+    <button
+      type="button"
+      onClick={() => setOpen(true)}
+      className={cn("ai-glow group block h-full w-full rounded-[calc(2rem-0.375rem)] text-left [--glow-opacity:0.35]", className)}
+    >
+      <span className="theme-dark flex h-full flex-col justify-between rounded-[inherit] bg-bg p-8 text-fg">
+      <span className="grid size-11 place-items-center rounded-2xl bg-gradient-to-br from-[#0894ff] via-[#c959dd] to-[#ff9004] text-white">
+        <Sparkles className="size-5" />
+      </span>
+      <span className="mt-10 block">
+        <span className="block text-[24px] font-semibold leading-tight tracking-[-0.03em]">
+          Skip the scrolling.
+          <br />
+          <span className="text-muted">Ask my AI anything.</span>
+        </span>
+        <span className="mt-5 inline-flex items-center gap-2 text-[15px] font-medium text-link">
+          Open Ask Amar
+          <ArrowUpRight className="size-4 transition-transform duration-500 ease-[var(--ease-fluid)] group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+        </span>
+      </span>
+      </span>
+    </button>
+  );
+}
+
+/** Docked chat panel plus a launcher that's always on screen. */
+export function ChatDock() {
+  const { open, setOpen, messages } = useChat();
   const reduce = useReducedMotion();
+  const launcher = useRef<HTMLButtonElement>(null);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const ask = document.getElementById("ask");
-    let askInView = false;
-    const update = () => setVisible(window.scrollY > window.innerHeight * 0.8 && !askInView);
-    const io = new IntersectionObserver(([e]) => {
-      askInView = e.isIntersecting;
-      if (askInView) setOpen(false);
-      update();
-    }, { threshold: 0.15 });
-    if (ask) io.observe(ask);
-    window.addEventListener("scroll", update, { passive: true });
-    update();
-    return () => {
-      io.disconnect();
-      window.removeEventListener("scroll", update);
-    };
+    const t = setTimeout(() => setReady(true), 1400);
+    return () => clearTimeout(t);
   }, []);
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+        launcher.current?.focus();
+      }
+    };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, setOpen]);
 
   return (
     <>
@@ -102,38 +174,55 @@ export function ChatLauncher() {
           <motion.div
             role="dialog"
             aria-label="Ask Amar"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.94 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24, scale: 0.94 }}
-            transition={{ type: "spring", stiffness: 360, damping: 30 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.92, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.94, filter: "blur(6px)" }}
+            transition={{ type: "spring", stiffness: 340, damping: 30 }}
             style={{ transformOrigin: "bottom right" }}
-            className="fixed inset-x-3 bottom-24 z-50 h-[min(600px,calc(100dvh-8rem))] overflow-hidden rounded-[28px] border border-line bg-glass shadow-2xl backdrop-blur-2xl backdrop-saturate-[1.8] sm:inset-x-auto sm:right-6 sm:w-[400px]"
+            className="ai-glow fixed inset-x-3 bottom-[5.5rem] z-50 h-[min(660px,calc(100dvh-7.5rem))] rounded-[28px] [--glow-opacity:0.45] sm:inset-x-auto sm:right-6 sm:w-[420px]"
           >
-            <ChatPanel className="h-full" autoFocus />
+            <div className="h-full overflow-hidden rounded-[28px] bg-card shadow-2xl">
+              <ChatPanel className="h-full" autoFocus={messages.length === 0} />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
 
       <AnimatePresence>
-        {(visible || open) && (
+        {ready && (
           <motion.button
+            ref={launcher}
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
             aria-label={open ? "Close Ask Amar" : "Open Ask Amar"}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 20 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 24 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 20 }}
-            whileHover={reduce ? undefined : { scale: 1.06 }}
-            whileTap={{ scale: 0.94 }}
-            transition={{ type: "spring", stiffness: 400, damping: 26 }}
-            className="fixed bottom-6 right-4 z-50 flex h-14 items-center gap-2 rounded-full bg-accent pl-4 pr-5 text-accent-fg shadow-[0_12px_32px_-8px_rgb(0_113_227/0.6)] sm:right-6"
+            exit={{ opacity: 0 }}
+            whileHover={reduce ? undefined : { scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 380, damping: 24 }}
+            className="ai-glow fixed bottom-5 right-4 z-50 rounded-full [--glow-opacity:0.7] sm:right-6"
           >
-            {open ? <X className="size-5" /> : <MessageCircle className="size-5" />}
-            <span className="text-[15px] font-medium">{open ? "Close" : "Ask Amar"}</span>
+            <span className="flex h-14 items-center gap-2.5 rounded-full bg-fg p-2 text-bg shadow-xl sm:pr-5">
+              <span className="grid size-10 place-items-center rounded-full bg-gradient-to-br from-[#0894ff] via-[#c959dd] to-[#ff9004] text-white">
+                {open ? <X className="size-5" /> : <Sparkles className="size-5" />}
+              </span>
+              <span className="hidden text-[15px] font-medium sm:inline">{open ? "Close" : "Ask Amar"}</span>
+            </span>
           </motion.button>
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+/** Plain button that opens the docked chat (for server-rendered sections). */
+export function AskButton({ className, children }: { className?: string; children: React.ReactNode }) {
+  const { setOpen } = useChat();
+  return (
+    <button type="button" onClick={() => setOpen(true)} className={className}>
+      {children}
+    </button>
   );
 }

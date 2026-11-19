@@ -7,15 +7,16 @@
  */
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sparkles, Sun } from "lucide-react";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import { useChat } from "./chat/chat-context";
 
 const NAV = [
+  { label: "About", href: "#about" },
   { label: "Work", href: "#work" },
   { label: "Websites", href: "#websites" },
   { label: "Experience", href: "#experience" },
-  { label: "Stack", href: "#stack" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -105,6 +106,7 @@ export function Nav() {
   const desktopId = useId();
   const mobileId = useId();
   const reduce = useReducedMotion() ?? false;
+  const { setOpen: openChat } = useChat();
 
   const select = useCallback((href: string) => {
     setActive(href);
@@ -121,14 +123,14 @@ export function Nav() {
   // Highlight the link whose section is on screen.
   useEffect(() => {
     // Also watch sections without a nav link (top, ask) so the pill clears there.
-    const ids = ["top", ...NAV.map((n) => n.href.slice(1)), "ask"];
+    const ids = ["top", ...NAV.map((n) => n.href.slice(1)), "projects"];
     const sections = ids.map((id) => document.getElementById(id)).filter(
       (el): el is HTMLElement => !!el,
     );
     const io = new IntersectionObserver(
       (entries) => {
         const hit = entries.filter((e) => e.isIntersecting).sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (hit) setActive(hit.target.id === "top" || hit.target.id === "ask" ? "" : `#${hit.target.id}`);
+        if (hit) setActive(hit.target.id === "top" ? "" : hit.target.id === "projects" ? "#work" : `#${hit.target.id}`);
       },
       { rootMargin: "-40% 0px -55% 0px", threshold: [0, 0.25, 0.5, 1] },
     );
@@ -175,7 +177,7 @@ export function Nav() {
           <span aria-hidden className="pointer-events-none absolute inset-x-8 top-0 h-px bg-gradient-to-r from-transparent via-fg/20 to-transparent" />
 
           <a href="#top" className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 text-[13px] font-semibold tracking-tight" onClick={() => select("")}>
-            <span className="grid size-7 place-items-center rounded-full bg-fg text-[11px] font-bold text-bg">AR</span>
+            <span className="grid size-7 place-items-center rounded-[9px] bg-gradient-to-br from-fg to-fg/70 text-[11px] font-bold tracking-tight text-bg shadow-[inset_0_1px_0_rgb(255_255_255/0.2)]">AR</span>
             <span>Amar Abdur Rehman</span>
           </a>
 
@@ -185,9 +187,15 @@ export function Nav() {
 
           <div className="flex items-center gap-1">
             <ThemeToggle />
-            <a href="#ask" className="hidden h-8 items-center rounded-full bg-accent px-3.5 text-[13px] font-medium text-accent-fg transition-colors hover:bg-accent-hover md:inline-flex">
-              Ask Amar
-            </a>
+            <button
+              type="button"
+              onClick={() => openChat(true)}
+              className="ai-glow hidden rounded-full [--glow-blur:10px] [--glow-opacity:0.5] md:block"
+            >
+              <span className="flex h-8 items-center gap-1.5 rounded-full bg-fg px-3.5 text-[13px] font-medium text-bg">
+                <Sparkles className="size-3.5" /> Ask Amar
+              </span>
+            </button>
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
@@ -215,9 +223,16 @@ export function Nav() {
             >
               <Links active={active} hovered={hovered} layoutId={`pill-${mobileId}`} vertical reduce={reduce} onHover={setHovered} onSelect={select} />
               <div className="mt-2 border-t border-line p-1 pt-3">
-                <a href="#ask" onClick={() => setOpen(false)} className="btn-primary w-full">
-                  Ask Amar
-                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setOpen(false);
+                    openChat(true);
+                  }}
+                  className="btn-primary w-full"
+                >
+                  <Sparkles className="size-4" /> Ask Amar
+                </button>
               </div>
             </motion.div>
           )}

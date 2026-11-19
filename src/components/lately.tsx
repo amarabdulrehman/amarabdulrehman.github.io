@@ -4,6 +4,7 @@ import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { lately } from "@/lib/content";
 import { Reveal } from "./motion";
+import { SpotlightCard } from "./ui/spotlight-card";
 
 export function Lately() {
   const track = useRef<HTMLUListElement>(null);
@@ -29,10 +30,11 @@ export function Lately() {
   };
 
   return (
-    <section aria-labelledby="lately-title" className="bg-bg-alt py-28 sm:py-36">
+    <section aria-labelledby="lately-title" className="section-y bg-bg-alt">
       <div className="container-apple flex items-end justify-between gap-6">
         <Reveal>
-          <h2 id="lately-title" className="headline-lg">Lately.</h2>
+          <span className="pill-tag">New this term</span>
+          <h2 id="lately-title" className="headline-lg mt-4">Lately.</h2>
           <p className="lede mt-3">Hackathons and new builds from this term, newest first.</p>
         </Reveal>
         <div className="hidden gap-2 sm:flex">
@@ -52,7 +54,8 @@ export function Lately() {
       >
         {lately.map((p, i) => (
           <li key={p.title} className="w-[85vw] max-w-[400px] shrink-0 snap-start sm:w-[400px]">
-            <Reveal delay={i * 0.06} className="flex h-full flex-col rounded-[28px] bg-card p-8 shadow-[0_2px_12px_rgb(0_0_0/0.04)] transition-transform duration-500 ease-apple hover:scale-[1.015]">
+            <Reveal delay={i * 0.06} className="bezel h-full">
+            <SpotlightCard className="bezel-core flex h-full flex-col p-8">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="eyebrow">{p.kicker}</span>
                 {p.badge && (
@@ -71,6 +74,7 @@ export function Lately() {
                   ))}
                 </div>
               )}
+            </SpotlightCard>
             </Reveal>
           </li>
         ))}
