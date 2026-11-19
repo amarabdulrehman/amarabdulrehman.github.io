@@ -1,5 +1,6 @@
 import { ApiError, GoogleGenAI, type GenerateContentResponse } from "@google/genai";
 import { buildSystemPrompt } from "@/lib/knowledge";
+import { LEAD_SENTINEL, toDraft } from "@/lib/lead";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -11,6 +12,39 @@ const MODELS = [process.env.GEMINI_MODEL || "gemini-3.5-flash-lite", "gemini-3.6
 const FIRST_TOKEN_TIMEOUT_MS = 15_000;
 const MAX_MESSAGES = 16;
 const MAX_CHARS = 800;
+
+/* ---------- Lead hand-off tool ---------- */
+
+const TOOLS = [
+  {
+    functionDeclarations: [
+      {
+        name: "show_contact_card",
+        description:
+          "Shows the visitor a contact card, pre-filled with what they've shared, that they review and press Send on to email Amar. Use once they want to be connected and you have their name, email and what they need.",
+        parametersJsonSchema: {
+          type: "object",
+          properties: {
+            name: { type: "string", description: "The visitor's name." },
+            email: { type: "string", description: "The visitor's email, exactly as they typed it." },
+            project: { type: "string", description: "What they need: the project, role or problem, in their words, 1–3 sentences." },
+            budget: { type: "string", description: "Budget if they shared one, otherwise empty." },
+            phone: { type: "string", description: "Phone or WhatsApp number if they shared one, otherwise empty." },
+          },
+        },
+      },
+    ],
+  },
+];
+
+/** Text parts of a chunk, without the SDK's warning about non-text (function call) parts. */
+function chunkText(r: GenerateContentResponse): string {
+  const parts = r.candidates?.[0]?.content?.parts ?? [];
+  return parts
+    .filter((p) => typeof p.text === "string" && !p.thought)
+    .map((p) => p.text)
+    .join("");
+}
 
 /* ---------- API keys: main first, then fallback ---------- */
 
@@ -96,7 +130,7 @@ async function openStream(messages: ChatMessage[]) {
         const stream = await ai.models.generateContentStream({
           model,
           contents,
-          config: { systemInstruction, temperature: 0.5, maxOutputTokens: 700, abortSignal: ctrl.signal },
+          config: { systemInstruction, temperature: 0.5, maxOutputTokens: 700, abortSignal: ctrl.signal, tools: TOOLS },
         });
         const it = stream[Symbol.asyncIterator]();
         const first = await it.next();
@@ -158,11 +192,16 @@ export async function POST(req: Request) {
     async start(controller) {
       try {
         let res = opened.first;
+        let lead: unknown = null;
         while (!res.done) {
-          const text = res.value.text;
+          const text = chunkText(res.value);
           if (text) controller.enqueue(encoder.encode(text));
+          const call = res.value.functionCalls?.find((c) => c.name === "show_contact_card");
+          if (call) lead = call.args ?? {};
           res = await opened.it.next();
         }
+        // The lead card rides at the end of the stream, after a separator the UI strips out.
+        if (lead) controller.enqueue(encoder.encode(`${LEAD_SENTINEL}${JSON.stringify(toDraft(lead))}`));
       } catch (err) {
         console.error("[chat] stream error", err);
         controller.enqueue(encoder.encode("\n\nSorry, I lost my train of thought. Please try again."));

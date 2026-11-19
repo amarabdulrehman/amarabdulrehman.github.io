@@ -7,6 +7,7 @@ import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import { profile, suggestedQuestions } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { useChat, type Msg } from "./chat-context";
+import { LeadCard } from "./lead-card";
 
 const LINK_RE = /(https?:\/\/[^\s)]+|[\w.+-]+@[\w-]+\.[\w.-]+|\/(?:cv|toffeeos-case-study)\.pdf)/g;
 
@@ -75,6 +76,8 @@ function Bubble({ m, streaming }: { m: Msg; streaming: boolean }) {
       >
         {m.content ? (
           mine ? m.content : <Rich text={m.content} />
+        ) : m.lead ? (
+          "Happy to connect you with Amar. Check your details below and press Send."
         ) : streaming ? (
           <span className="flex gap-1 py-1.5" aria-label="Typing">
             {[0, 1, 2].map((i) => (
@@ -150,7 +153,16 @@ export function ChatPanel({ className, autoFocus }: { className?: string; autoFo
             </div>
           </div>
         ) : (
-          messages.map((m, i) => <Bubble key={m.id} m={m} streaming={streaming && i === messages.length - 1} />)
+          messages.map((m, i) => {
+            const last = i === messages.length - 1;
+            return (
+              <Fragment key={m.id}>
+                <Bubble m={m} streaming={streaming && last} />
+                {/* card appears once the answer has finished streaming */}
+                {m.lead && !(streaming && last) && <LeadCard draft={m.lead} />}
+              </Fragment>
+            );
+          })
         )}
         <AnimatePresence>
           {error && (
