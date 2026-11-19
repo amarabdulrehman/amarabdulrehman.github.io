@@ -206,10 +206,40 @@ export const stack = [
  * rather than guess: the bot is told never to invent facts.
  */
 export const botExtras: string[] = [
-  "Open to remote full-time roles and internships; based in Islamabad (Pakistan Standard Time, UTC+5).",
-  "Graduates with a BS in Computer Science from COMSATS University Islamabad in July 2027.",
+  // Target roles
+  "Looking for remote, paid roles at fast-moving startups and product teams. Open to junior full-stack, frontend, backend, AI/automation engineering, n8n development, computer vision / ML engineering, QA and test automation, AI training and evaluation, developer support, and agency web development.",
+  "Contract, part-time or full-time all work for him. He's most useful where software meets real small businesses: restaurants, retail, clinics and services.",
+  // Availability
+  "Available now, with no notice period. Works remotely from Islamabad (Pakistan Standard Time, UTC+5): can cover European hours fully and overlaps about 4 hours with US hours.",
+  "Happy to start with a paid trial project to prove himself. Paid internships are fine; he doesn't do unpaid work.",
+  // Story
+  "Has built software for real clients for about 3 years: web developer at Evangeline Media (2023–2025), then founded Krimsols, a software company in Islamabad that has delivered work for 20+ clients since 2024.",
+  "He started Krimsols because local businesses were running on paper and WhatsApp and he knew he could build them something better. That's how ToffeeOS was born.",
+  "Graduates with a BS in Computer Science from COMSATS University Islamabad in July 2027, while running Krimsols.",
+  // How he works
+  "Owns things end to end: he built ToffeeOS, shipped it to real cafés and still maintains it in production.",
+  "Ships fast because he builds with AI coding agents like Claude Code every day.",
+  "Tests before he trusts: his automations retry on failure, check AI output before anything goes out, and alert a person when something breaks.",
+  // Proudest work and what's next
+  "ToffeeOS (Next.js, TypeScript, Postgres) has processed about 5,000 real orders and 4,500 real payments in production.",
+  "Also built a construction-tracking desktop app with cloud backup.",
+  "Next, he wants to build AI agents and vision systems that small businesses can actually rely on with real customers, in the languages those customers speak.",
+  // Outside work
+  "Speaks English and Urdu. Competes in hackathons and the Huawei ICT Competition, and builds ESP32 hardware gadgets for fun, starting with a Spotify 'now playing' charm.",
+  // Extra skills not shown on the site
+  "Other skills: JavaScript, HTML/CSS, responsive and animated sites, REST APIs, webhooks, Socket.IO, SQL, LLM workflows and agents, prompt design, AI output validation, multilingual replies (English, Roman Urdu, Arabic), Gemini API, Google Sheets and Gmail APIs, Java, Rust, C#, WordPress/WooCommerce.",
+  // Contact
   "Best way to reach him: email amarabdulrehman123@gmail.com, or LinkedIn.",
-  // TODO(Amar): roles you're targeting, start date, relocation, personal story, interests…
+];
+
+/** Topics the bot must not discuss; it redirects them to email instead. */
+export const botOffLimits = [
+  "salary, rates or pay expectations",
+  "committing to a specific start date or working hours (it may say he's available now and his time-zone overlap)",
+  "his age",
+  "his grades",
+  "client details beyond what's public on this site",
+  "his personal life",
 ];
 
 export const suggestedQuestions = [
