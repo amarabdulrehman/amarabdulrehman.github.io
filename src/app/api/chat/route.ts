@@ -182,7 +182,7 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error("[chat] all keys failed", err);
     return Response.json(
-      { error: "Amar’s assistant is taking a break right now. Please email him at amarabdulrehman123@gmail.com." },
+      { error: "Amar’s assistant is taking a break right now. Please email him at amar@amarabdurrehman.me." },
       { status: 502 },
     );
   }

@@ -3,11 +3,14 @@
 import { motion, useReducedMotion } from "motion/react";
 import { SECTIONS } from "@/lib/sections";
 import { cn } from "@/lib/utils";
+import { useAppOptional } from "./app-state";
 import { useActiveSection } from "./use-active-section";
 
 /** Numbered table of contents pinned to the left on wide screens. */
 export function SectionIndex() {
-  const active = useActiveSection();
+  const app = useAppOptional();
+  const seen = useActiveSection();
+  const active = app?.recruiter ? null : seen;
   const reduce = useReducedMotion();
   const idx = SECTIONS.findIndex((s) => s.id === active);
 

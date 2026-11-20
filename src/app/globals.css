@@ -18,6 +18,7 @@
   --link: #4b4be6;
   --glass: rgb(255 255 255 / 0.72);
   --shadow: 0 30px 60px -30px rgb(0 0 0 / 0.25);
+  --hairline: transparent;
   color-scheme: light;
 }
 
@@ -36,6 +37,7 @@
   --link: #a3a3ff;
   --glass: rgb(22 22 23 / 0.72);
   --shadow: 0 30px 60px -30px rgb(0 0 0 / 0.8);
+  --hairline: rgb(255 255 255 / 0.1);
   color-scheme: dark;
 }
 
@@ -50,6 +52,7 @@
   --grid: rgb(255 255 255 / 0.04);
   --accent-text: #a3a3ff;
   --link: #a3a3ff;
+  --hairline: rgb(255 255 255 / 0.1);
   color-scheme: dark;
 }
 
@@ -226,6 +229,8 @@ body {
 @utility bezel-core {
   border-radius: calc(1.5rem - 0.3125rem);
   background: var(--card);
+  /* tactile top-edge hairline (visible in dark surfaces) */
+  border-top: 1px solid var(--hairline);
   box-shadow:
     inset 0 1px 0 rgb(255 255 255 / 0.08),
     0 1px 2px rgb(0 0 0 / 0.04),
@@ -366,3 +371,43 @@ svg.lucide {
   opacity: 1;
 }
 }
+
+/* ---------- Dialogs: crisp 180ms ease-out, no bounce ---------- */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
+dialog.modal[open] {
+  animation: modal-in 180ms ease-out;
+}
+dialog.modal-drawer[open] {
+  animation: drawer-in 200ms ease-out;
+}
+dialog.modal[open]::backdrop {
+  animation: fade-in 180ms ease-out;
+}
+@keyframes modal-in {
+  from { opacity: 0; transform: translateY(6px) scale(0.985); }
+}
+@keyframes drawer-in {
+  from { transform: translateX(24px); opacity: 0; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+.view-in {
+  animation: fade-in 180ms ease-out;
+}
+/* moving packet on an active link in the ToffeeOS lab */
+@keyframes packet {
+  from { left: 0; }
+  to { left: calc(100% - 6px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  dialog.modal[open],
+  dialog.modal-drawer[open],
+  dialog.modal[open]::backdrop,
+  .view-in {
+    animation: none;
+  }
+}
+

@@ -7,27 +7,100 @@
  */
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { Moon, Sparkles, Sun } from "lucide-react";
+import { Moon, Sun, Target } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
-import { SECTIONS, type SectionId } from "@/lib/sections";
+import { NAV_SECTIONS, SECTIONS, sectionNumber, type SectionId } from "@/lib/sections";
 import { cn } from "@/lib/utils";
+import { useAppOptional } from "./app-state";
 import { useChat } from "./chat/chat-context";
 import { useActiveSection } from "./use-active-section";
 
 const SPRING = { type: "spring", stiffness: 420, damping: 34, mass: 0.8 } as const;
 
+/** In recruiter mode the sections are hidden, so links switch back to the full story first. */
+function useNavClick() {
+  const app = useAppOptional();
+  return (id: string) => (e: React.MouseEvent) => {
+    if (!app?.recruiter) return;
+    e.preventDefault();
+    app.goTo(id);
+  };
+}
+
+/** Segmented pill: Full Story | 15s Recruiter Mode. */
+export function ViewToggle({ className, compact }: { className?: string; compact?: boolean }) {
+  const app = useAppOptional();
+  if (!app) return null;
+  const opts = [
+    { on: false, label: "Full Story", short: "Full" },
+    { on: true, label: "15s Recruiter Mode", short: "15s" },
+  ];
+  return (
+    <div role="group" aria-label="View" className={cn("flex rounded-full bg-fg/[0.06] p-0.5", className)}>
+      {opts.map((o) => {
+        const selected = app.recruiter === o.on;
+        return (
+          <button
+            key={o.label}
+            type="button"
+            aria-pressed={selected}
+            aria-label={o.label}
+            onClick={() => app.setRecruiter(o.on)}
+            className={cn(
+              "flex-1 whitespace-nowrap rounded-full px-3 py-1.5 font-mono text-[11.5px] font-medium transition-colors duration-150 ease-out",
+              selected ? "bg-fg text-bg" : "text-muted hover:text-fg",
+            )}
+          >
+            {compact ? (
+              o.label
+            ) : (
+              <>
+                <span className="2xl:hidden">{o.short}</span>
+                <span className="hidden 2xl:inline">{o.label}</span>
+              </>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
+function PaletteButton() {
+  const app = useAppOptional();
+  const [mac, setMac] = useState(false);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- platform is only known on the client
+    setMac(/Mac|iPhone|iPad/.test(navigator.platform || navigator.userAgent));
+  }, []);
+  if (!app) return null;
+  return (
+    <button
+      type="button"
+      onClick={() => app.setPaletteOpen(true)}
+      aria-label="Open command palette"
+      aria-keyshortcuts={mac ? "Meta+K" : "Control+K"}
+      className="hidden h-8 items-center rounded-full px-2.5 font-mono text-[11.5px] text-muted shadow-[inset_0_0_0_1px_var(--line)] transition-colors duration-150 hover:text-fg lg:flex"
+    >
+      {mac ? "⌘K" : "Ctrl K"}
+    </button>
+  );
+}
+
 function DesktopLinks({ active, reduce }: { active: SectionId | null; reduce: boolean }) {
+  const navClick = useNavClick();
   const [hovered, setHovered] = useState<SectionId | null>(null);
   const layoutId = useId();
   const highlighted = hovered ?? active;
   return (
     <ul className="flex items-center" onPointerLeave={() => setHovered(null)}>
-      {SECTIONS.map((s) => {
+      {NAV_SECTIONS.map((s) => {
         const on = s.id === highlighted;
         return (
           <li key={s.id}>
             <a
               href={`#${s.id}`}
+              onClick={navClick(s.id)}
               aria-current={s.id === active ? "true" : undefined}
               onPointerEnter={(e) => e.pointerType === "mouse" && setHovered(s.id)}
               className={cn(
@@ -52,7 +125,7 @@ function DesktopLinks({ active, reduce }: { active: SectionId | null; reduce: bo
   );
 }
 
-function ThemeToggle() {
+export function ThemeToggle() {
   // Icons swap via CSS (dark: variant), so no state is needed and nothing flashes on load.
   const toggle = () => {
     const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
@@ -75,12 +148,16 @@ function ThemeToggle() {
 }
 
 export function Nav() {
-  const active = useActiveSection();
+  const app = useAppOptional();
+  const seen = useActiveSection();
+  // the full story is hidden in recruiter mode, so nothing is "current"
+  const active = app?.recruiter ? null : seen;
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const reduce = useReducedMotion() ?? false;
-  const { setOpen: openChat } = useChat();
+  const { openFit } = useChat();
+  const navClick = useNavClick();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -145,15 +222,8 @@ export function Nav() {
 
           <div className="flex items-center gap-1">
             <ThemeToggle />
-            <button
-              type="button"
-              onClick={() => openChat(true)}
-              className="ai-glow hidden rounded-full [--glow-blur:10px] [--glow-opacity:0.5] lg:block"
-            >
-              <span className="flex h-8 items-center gap-1.5 rounded-full bg-accent px-3.5 text-[13px] font-medium text-accent-fg">
-                <Sparkles className="size-3.5" /> Ask Amar
-              </span>
-            </button>
+            <ViewToggle className="hidden lg:flex" />
+            <PaletteButton />
             <button
               type="button"
               onClick={() => setOpen((o) => !o)}
@@ -180,7 +250,7 @@ export function Nav() {
               className="absolute inset-x-0 top-full mt-2 rounded-3xl border border-line bg-glass p-2 shadow-xl backdrop-blur-2xl backdrop-saturate-[1.8] lg:hidden"
             >
               <ol className="grid">
-                {SECTIONS.map((s, i) => (
+                {NAV_SECTIONS.map((s, i) => (
                   <motion.li
                     key={s.id}
                     initial={reduce ? false : { opacity: 0, y: 10 }}
@@ -189,29 +259,33 @@ export function Nav() {
                   >
                     <a
                       href={`#${s.id}`}
-                      onClick={() => setOpen(false)}
+                      onClick={(e) => {
+                        setOpen(false);
+                        navClick(s.id)(e);
+                      }}
                       aria-current={s.id === active ? "true" : undefined}
                       className={cn(
                         "flex items-center gap-4 rounded-2xl px-4 py-3 text-[17px] font-medium transition-colors hover:bg-fg/[0.05]",
                         s.id === active && "bg-fg/[0.06]",
                       )}
                     >
-                      <span className="font-mono text-[12px] text-accent-text">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="font-mono text-[12px] text-accent-text">{sectionNumber(s.id)}</span>
                       {s.label}
                     </a>
                   </motion.li>
                 ))}
               </ol>
-              <div className="mt-2 border-t border-line p-1 pt-3">
+              <div className="mt-2 grid gap-2 border-t border-line p-1 pt-3">
+                <ViewToggle compact className="w-full" />
                 <button
                   type="button"
                   onClick={() => {
                     setOpen(false);
-                    openChat(true);
+                    openFit();
                   }}
                   className="btn-primary w-full"
                 >
-                  <Sparkles className="size-4" /> Ask Amar
+                  <Target className="size-4" /> Match a role
                 </button>
               </div>
             </motion.div>

@@ -1,7 +1,6 @@
 "use client";
 
-import { animate, motion, useInView, useReducedMotion, type HTMLMotionProps } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { motion, useReducedMotion, type HTMLMotionProps } from "motion/react";
 
 export const EASE = [0.28, 0.11, 0.32, 1] as const;
 
@@ -23,30 +22,5 @@ export function Reveal({
     >
       {children}
     </motion.div>
-  );
-}
-
-/** Counts up to `to` the first time it's on screen. */
-export function CountUp({ to, suffix = "" }: { to: number; suffix?: string }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "0px 0px -10% 0px" });
-  const reduce = useReducedMotion();
-  const [value, setValue] = useState(0);
-
-  useEffect(() => {
-    if (!inView || reduce) return;
-    const controls = animate(0, to, {
-      duration: 1.6,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => setValue(Math.round(v)),
-    });
-    return () => controls.stop();
-  }, [inView, reduce, to]);
-
-  return (
-    <span ref={ref} className="tabular-nums">
-      <span aria-hidden>{(reduce ? to : value).toLocaleString("en-US")}{suffix}</span>
-      <span className="sr-only">{to.toLocaleString("en-US")}{suffix}</span>
-    </span>
   );
 }

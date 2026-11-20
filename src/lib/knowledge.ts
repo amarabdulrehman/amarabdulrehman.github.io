@@ -4,10 +4,12 @@ import {
   experience,
   flagship,
   lately,
-  moreProjects,
+  archiveProjects,
+  STATUS_LABEL,
   profile,
   projects,
   recruitAI,
+  productionStats,
   stack,
   stats,
   websites,
@@ -52,14 +54,14 @@ export function buildSystemPrompt(): string {
   push(`- If someone prefers chatting or wants a faster reply, share Amar's WhatsApp: ${profile.whatsappUrl} (${profile.whatsapp}).`);
   push();
   push("PROFILE");
-  push(`${profile.name}, ${profile.role}, ${profile.location}. ${profile.availability}.`);
+  push(`${profile.name}, ${profile.role}, ${profile.location}. ${profile.availability}. ${profile.timezone}. Graduating ${profile.graduation}.`);
   push(profile.intro);
   push(`Email: ${profile.email} | WhatsApp: ${profile.whatsappUrl} | LinkedIn: ${profile.linkedin} | GitHub: ${profile.github} | CV: ${profile.site}${profile.cv}`);
-  push(`Headline numbers: ${stats.map((s) => `${s.value}${s.suffix} ${s.label}`).join("; ")}.`);
+  push(`Headline numbers: ${[...stats, ...productionStats].map((s) => `${s.value} ${s.label}`).join("; ")}.`);
   push();
   push(`FLAGSHIP: ${flagship.name} (${flagship.url}) — ${flagship.tagline} ${flagship.summary}`);
   flagship.features.forEach((f) => push(`- ${f.title} ${f.body}`));
-  push(`Stack: ${flagship.stack.join(", ")}. Case study PDF: ${profile.site}${flagship.caseStudy}`);
+  push(`Stack: ${flagship.stack.join(", ")}. Case study: ${profile.site}${flagship.caseStudy} (PDF: ${profile.site}${flagship.caseStudyPdf})`);
   push();
   push("RECENT WORK");
   lately.forEach((p) => {
@@ -68,11 +70,12 @@ export function buildSystemPrompt(): string {
   push();
   push("SELECTED PROJECTS");
   push(`- ${recruitAI.title} (${recruitAI.kicker}): ${recruitAI.body} Tech: ${recruitAI.tech}. Live demo: ${recruitAI.demo}`);
-  projects.forEach((p) => push(`- ${p.title} (${p.kicker}${p.badge ? `, ${p.badge}` : ""}): ${p.body} Tech: ${p.tech}.`));
-  moreProjects.forEach((p) => push(`- ${p.title}: ${p.body}`));
+  projects.forEach((p) => push(`- ${p.title} (${p.kicker}${p.badge ? `, ${p.badge}` : ""}): ${p.body} Tech: ${p.tech}.${p.links.length ? " Links: " + p.links.map((l) => `${l.label} ${l.href}`).join(", ") : ""}`));
+  push("Older and coursework projects (not on the page; mention only if asked):");
+  archiveProjects.forEach((p) => push(`- ${p.title}: ${p.body}`));
   push();
-  push("CLIENT WEBSITES (all live)");
-  websites.forEach((w) => push(`- ${w.name} (${w.kind}): ${w.summary} ${w.url}`));
+  push("CLIENT WEBSITES (Live Production = a business runs on it today; Live Prototype = a live, clickable build made for the client)");
+  websites.forEach((w) => push(`- ${w.name} (${w.kind}, ${STATUS_LABEL[w.status]}): ${w.summary} ${w.url}`));
   push();
   push("EXPERIENCE & EDUCATION");
   experience.forEach((e) => push(`- ${e.period}: ${e.role}, ${e.org}. ${e.body}`));

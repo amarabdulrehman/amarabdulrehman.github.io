@@ -1,13 +1,14 @@
-import { ArrowDownToLine, ArrowUpRight, Mail, Sparkles } from "lucide-react";
-import { experience, profile, stack } from "@/lib/content";
+import { ArrowDownToLine, ArrowUp, ArrowUpRight, Sparkles } from "lucide-react";
+import { experience, profile } from "@/lib/content";
 import { AskButton } from "./chat/ask-amar";
+import { CopyEmailButton, CopyEmailInline } from "./copy-email";
 import { Reveal } from "./motion";
 import { SectionHeader } from "./section-header";
-import { SpotlightCard } from "./ui/spotlight-card";
+import { TestFitButton } from "./test-fit-button";
 
 export function Experience() {
   return (
-    <section id="experience" className="section-y border-t border-line bg-bg-alt">
+    <section id="experience" className="section-y scroll-mt-24 border-t border-line bg-bg-alt">
       <div className="container-apple">
         <SectionHeader
           id="experience"
@@ -37,43 +38,8 @@ export function Experience() {
   );
 }
 
-export function Skills() {
-  return (
-    <section id="skills" className="section-y border-t border-line">
-      <div className="container-apple">
-        <SectionHeader
-          id="skills"
-          meta={`${stack.reduce((n, s) => n + s.items.length, 0)} tools`}
-          title={
-            <>
-              What I use <span className="text-muted">day to day.</span>
-            </>
-          }
-        />
-        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
-          {stack.map((s, i) => (
-            <Reveal key={s.group} delay={(i % 4) * 0.06} className="bezel">
-              <SpotlightCard tilt className="bezel-core h-full p-6">
-                <div className="flex items-center justify-between">
-                  <h3 className="eyebrow">{s.group}</h3>
-                  <span className="font-mono text-[11px] text-muted/70">{String(i + 1).padStart(2, "0")}</span>
-                </div>
-                <ul className="mt-5 grid gap-1.5">
-                  {s.items.map((it) => (
-                    <li key={it} className="text-[17px] font-semibold tracking-[-0.02em]">{it}</li>
-                  ))}
-                </ul>
-              </SpotlightCard>
-            </Reveal>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 const LINKS = [
-  { label: "Email", value: profile.email, href: `mailto:${profile.email}` },
+  { label: "Email", value: profile.email, href: `mailto:${profile.email}?subject=Role%20for%20Amar` },
   { label: "LinkedIn", value: "in/amarabdurrehman", href: profile.linkedin },
   { label: "GitHub", value: "amarabdulrehman", href: profile.github },
   { label: "Based", value: profile.location },
@@ -81,9 +47,9 @@ const LINKS = [
 
 export function Contact() {
   return (
-    <section id="contact" className="section-y border-t border-line">
+    <section id="contact" className="section-y scroll-mt-24 border-t border-line">
       <div className="container-apple">
-        <SectionHeader id="contact" meta="Open to remote roles" title="Hiring a remote engineer?" summary="Send me the role and I’ll send back the projects and code that fit it." />
+        <SectionHeader id="contact" meta="Remote · 30–40 hrs/week" title="Hiring a remote engineer?" summary="Send me the role and I’ll send back the projects and code that fit it. Available for remote engineering roles at 30–40 hours a week, overlapping fully with European hours and about 4 hours with US hours." />
 
         <Reveal className="bezel">
           <div className="bezel-core relative isolate grid overflow-hidden md:grid-cols-[1.2fr_1fr] [&>*]:min-w-0">
@@ -98,20 +64,12 @@ export function Contact() {
                 Let’s talk about <span className="text-accent">what you’re building.</span>
               </p>
               <div className="flex flex-wrap items-center gap-3">
-                  <a href={`mailto:${profile.email}?subject=Role%20for%20Amar`} className="btn-primary group">
-                    Email me
-                    <span className="btn-icon">
-                      <Mail className="size-4" />
-                    </span>
-                  </a>
+                  <CopyEmailButton className="max-w-full" />
                   <AskButton className="ai-glow rounded-full [--glow-opacity:0.45]">
                     <span className="btn-secondary bg-card hover:bg-bg-alt">
                       <Sparkles className="size-4 text-accent" /> Ask my AI
                     </span>
                   </AskButton>
-                  <a href={profile.cv} download className="btn-secondary">
-                    <ArrowDownToLine className="size-4" /> CV
-                  </a>
               </div>
             </div>
 
@@ -147,19 +105,32 @@ export function Contact() {
 export function Footer() {
   return (
     <footer className="border-t border-line py-10 font-mono text-[12px] text-muted">
-      <div className="container-apple flex flex-col items-center justify-between gap-4 sm:flex-row">
-        <p>
-          © 2026 {profile.name} · {profile.location}
-        </p>
-        <div className="flex items-center gap-6 uppercase tracking-[0.08em]">
+      <div className="container-apple grid gap-6">
+        <div className="flex flex-col items-center justify-between gap-5 md:flex-row">
+          <p className="text-center md:text-left">
+            © 2026 {profile.name}
+            <span className="mt-1 block text-muted/80">{profile.timezone}</span>
+          </p>
+          <TestFitButton className="rounded-full bg-accent px-4 py-2 text-[12px] uppercase tracking-[0.08em] text-accent-fg transition-colors duration-150 ease-out hover:bg-accent-hover" />
+        </div>
+        <nav
+          aria-label="Footer"
+          className="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 border-t border-line pt-6 uppercase tracking-[0.08em] md:justify-start"
+        >
+          <CopyEmailInline />
+          <a href={profile.cv} download className="inline-flex items-center gap-1 hover:text-fg">
+            <ArrowDownToLine className="size-3" /> Download CV
+          </a>
           <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-fg">
             LinkedIn <ArrowUpRight className="size-3" />
           </a>
           <a href={profile.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 hover:text-fg">
             GitHub <ArrowUpRight className="size-3" />
           </a>
-          <a href="#top" className="hover:text-fg">Top ↑</a>
-        </div>
+          <a href="#top" className="inline-flex items-center gap-1 hover:text-fg md:ml-auto">
+            Back to top <ArrowUp className="size-3" />
+          </a>
+        </nav>
       </div>
     </footer>
   );

@@ -1,9 +1,11 @@
 "use client";
 
 import { motion, useReducedMotion } from "motion/react";
-import { ArrowDownToLine, ArrowRight } from "lucide-react";
-import { config, profile, uptime } from "@/lib/content";
+import { ArrowDownToLine } from "lucide-react";
+import { config, profile, stats } from "@/lib/content";
 import { HeroAsk } from "./chat/ask-amar";
+import { CopyEmailButton } from "./copy-email";
+import { TestFitButton } from "./test-fit-button";
 import { EASE } from "./motion";
 
 function ConfigCard() {
@@ -102,9 +104,16 @@ export function Hero() {
           <span className="text-fg">{profile.name}</span>
           <span aria-hidden className="hidden h-3 w-px bg-line sm:block" />
           <span className="hidden sm:inline">{profile.role}</span>
-          <span className="ml-auto flex items-center gap-2 rounded-full bg-emerald-500/10 px-2.5 py-1 text-emerald-700 dark:text-emerald-300">
-            <span className="size-1.5 rounded-full bg-emerald-500" />
-            {profile.availability}
+          <span className="ml-auto flex flex-wrap items-center gap-x-2 gap-y-1 rounded-2xl bg-emerald-500/10 px-3 py-1.5 text-emerald-700 normal-case tracking-normal dark:text-emerald-300">
+            <span className="flex items-center gap-2">
+              <span className="relative flex size-1.5" aria-hidden>
+                <span className="absolute inline-flex size-full animate-ping rounded-full bg-emerald-500 opacity-60 motion-reduce:hidden" />
+                <span className="relative inline-flex size-1.5 rounded-full bg-emerald-500" />
+              </span>
+              {profile.availability}
+            </span>
+            <span aria-hidden className="hidden text-emerald-700/50 sm:inline dark:text-emerald-300/50">·</span>
+            <span className="text-emerald-800/80 dark:text-emerald-200/80">{profile.timezone}</span>
           </span>
         </motion.div>
 
@@ -133,15 +142,19 @@ export function Hero() {
               <HeroAsk />
             </motion.div>
 
-            <motion.div {...fade(0.95)} className="mt-9 flex flex-wrap items-center gap-3">
-              <a href="#work" className="btn-primary group">
-                See the work
-                <span className="btn-icon">
-                  <ArrowRight className="size-4" />
-                </span>
-              </a>
-              <a href={profile.cv} className="btn-secondary" download>
-                <ArrowDownToLine className="size-4" /> Download CV
+            <motion.div {...fade(0.95)} className="mt-9">
+              <div className="flex flex-wrap items-center gap-3">
+                <CopyEmailButton className="max-w-full" />
+                <a href={profile.cv} className="btn-secondary" download>
+                  <ArrowDownToLine className="size-4" /> Download CV
+                </a>
+                <TestFitButton label="Match a role" className="btn-secondary" />
+              </div>
+              <a
+                href={`mailto:${profile.email}`}
+                className="mt-3 inline-block text-[14px] text-muted underline decoration-line underline-offset-4 transition-colors hover:text-fg hover:decoration-current"
+              >
+                Or open in mail app
               </a>
             </motion.div>
           </div>
@@ -151,22 +164,18 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* uptime strip */}
-        <motion.dl
-          {...fade(1.1)}
-          className="mt-16 grid grid-cols-2 border-y border-line sm:grid-cols-4 lg:mt-20"
-        >
-          {uptime.map((u, i) => (
-            <div
+        {/* headline numbers: static markup, visible on first paint, figure before label */}
+        <ul aria-label="Headline numbers" className="mt-16 grid grid-cols-2 border-y border-line sm:grid-cols-4 lg:mt-20">
+          {stats.map((u, i) => (
+            <li
               key={u.label}
-              className={`py-6 sm:px-6 sm:first:pl-0 ${i % 2 === 1 ? "pl-6 border-l border-line" : ""} ${i > 1 ? "border-t border-line sm:border-t-0" : ""} ${i === 2 ? "sm:border-l sm:border-line" : ""}`}
+              className={`flex flex-col py-6 sm:px-6 sm:first:pl-0 ${i % 2 === 1 ? "pl-6 border-l border-line" : ""} ${i > 1 ? "border-t border-line sm:border-t-0" : ""} ${i === 2 ? "sm:border-l sm:border-line" : ""}`}
             >
-              <dt className="sr-only">{u.label}</dt>
-              <dd className="text-[34px] font-semibold leading-none tracking-[-0.04em] tabular-nums">{u.value}</dd>
-              <dd className="mt-2 font-mono text-[11.5px] uppercase tracking-[0.08em] text-muted">{u.label}</dd>
-            </div>
+              <span className="font-mono text-[34px] font-semibold leading-none tracking-[-0.05em] tabular-nums">{u.value}</span>{" "}
+              <span className="mt-2 font-mono text-[11.5px] uppercase tracking-[0.08em] text-muted">{u.label}</span>
+            </li>
           ))}
-        </motion.dl>
+        </ul>
       </div>
     </section>
   );

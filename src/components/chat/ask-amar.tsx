@@ -1,12 +1,11 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ArrowUp, ArrowUpRight, Sparkles, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { ArrowUp, ArrowUpRight, Sparkles } from "lucide-react";
+import { useEffect, useState } from "react";
 import { suggestedQuestions } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { EASE } from "../motion";
-import { ChatPanel } from "./chat-panel";
 import { useChat } from "./chat-context";
 
 const PLACEHOLDERS = [
@@ -143,81 +142,7 @@ export function AskTile({ className }: { className?: string }) {
   );
 }
 
-/** Docked chat panel plus a launcher that's always on screen. */
-export function ChatDock() {
-  const { open, setOpen, messages } = useChat();
-  const reduce = useReducedMotion();
-  const launcher = useRef<HTMLButtonElement>(null);
-  const [ready, setReady] = useState(false);
-
-  useEffect(() => {
-    const t = setTimeout(() => setReady(true), 1400);
-    return () => clearTimeout(t);
-  }, []);
-
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpen(false);
-        launcher.current?.focus();
-      }
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [open, setOpen]);
-
-  return (
-    <>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            role="dialog"
-            aria-label="Ask Amar"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.92, filter: "blur(8px)" }}
-            animate={{ opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 28, scale: 0.94, filter: "blur(6px)" }}
-            transition={{ type: "spring", stiffness: 340, damping: 30 }}
-            style={{ transformOrigin: "bottom right" }}
-            className="ai-glow fixed inset-x-3 bottom-[5.5rem] z-50 h-[min(660px,calc(100dvh-7.5rem))] rounded-[28px] [--glow-opacity:0.45] sm:inset-x-auto sm:right-6 sm:w-[420px]"
-          >
-            <div className="h-full overflow-hidden rounded-[28px] bg-card shadow-2xl">
-              <ChatPanel className="h-full" autoFocus={messages.length === 0} />
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {ready && (
-          <motion.button
-            ref={launcher}
-            type="button"
-            onClick={() => setOpen((o) => !o)}
-            aria-expanded={open}
-            aria-label={open ? "Close Ask Amar" : "Open Ask Amar"}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.6, y: 24 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0 }}
-            whileHover={reduce ? undefined : { scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            transition={{ type: "spring", stiffness: 380, damping: 24 }}
-            className="ai-glow fixed bottom-5 right-4 z-50 rounded-full [--glow-opacity:0.7] sm:right-6"
-          >
-            <span className="flex h-14 items-center gap-2.5 rounded-full bg-card p-2 text-fg shadow-xl sm:pr-5">
-              <span className="grid size-10 place-items-center rounded-full bg-accent text-accent-fg">
-                {open ? <X className="size-5" /> : <Sparkles className="size-5" />}
-              </span>
-              <span className="hidden text-[15px] font-medium sm:inline">{open ? "Close" : "Ask Amar"}</span>
-            </span>
-          </motion.button>
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
-
-/** Plain button that opens the docked chat (for server-rendered sections). */
+/** Plain button that opens the Ask tab of the drawer (for server-rendered sections). */
 export function AskButton({ className, children }: { className?: string; children: React.ReactNode }) {
   const { setOpen } = useChat();
   return (

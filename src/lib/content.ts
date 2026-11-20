@@ -9,7 +9,7 @@ export const profile = {
   firstName: "Amar",
   role: "Full-Stack & Python Engineer",
   location: "Islamabad, Pakistan",
-  email: "amarabdulrehman123@gmail.com",
+  email: "amar@amarabdurrehman.me",
   linkedin: "https://www.linkedin.com/in/amarabdurrehman/",
   github: "https://github.com/amarabdulrehman",
   site: "https://amarabdurrehman.me",
@@ -17,7 +17,10 @@ export const profile = {
   whatsapp: "+92 329 1555121",
   whatsappUrl: "https://wa.me/923291555121",
   portrait: "/amar-cutout.webp",
-  availability: "Available for remote roles",
+  availability: "Available for remote engineering roles (30–40 hrs/week)",
+  hours: "30–40 hrs/week",
+  timezone: "Islamabad, PK (UTC+5) · 4+ hrs overlap with EU/UK & US East",
+  graduation: "July 2027",
   headline: "Software that real businesses run on.",
   intro:
     "I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés take 200+ orders a day on the restaurant system I built, and I’ve shipped software for 20+ clients since 2024.",
@@ -27,18 +30,21 @@ export const profile = {
 export const config: { key: string; value: string | string[] }[] = [
   { key: "role", value: "Full-stack & Python engineer" },
   { key: "based", value: "Islamabad, PK · UTC+5" },
-  { key: "status", value: "Open to remote roles" },
+  { key: "status", value: "Open to remote roles · 30–40 hrs/week" },
   { key: "shipping", value: ["ToffeeOS", "RecruitAI", "Meow Meow AI"] },
   { key: "clients", value: "20+ since 2024" },
   { key: "graduating", value: "July 2027 · COMSATS" },
 ];
 
-/** The hero's "uptime" strip. */
-export const uptime = [
-  { value: "2", label: "cafés live on ToffeeOS" },
-  { value: "200+", label: "orders a day" },
-  { value: "561", label: "tests per release" },
-  { value: "20+", label: "clients shipped" },
+/**
+ * The hero's headline numbers. Plain strings, rendered as-is on first paint
+ * (no count-up), so they always match the copy around them.
+ */
+export const stats = [
+  { value: "200+", label: "orders a day on ToffeeOS" },
+  { value: "561", label: "automated tests before every release" },
+  { value: "1,000", label: "resumes ranked in a single batch" },
+  { value: "20+", label: "paying clients since 2024" },
 ];
 
 /** Short proof points on the portrait tile. */
@@ -48,11 +54,12 @@ export const proof = [
   { strong: "Final-year CS at COMSATS.", rest: "Graduating July 2027." },
 ];
 
-export const stats = [
-  { value: 200, suffix: "+", label: "orders a day on ToffeeOS" },
-  { value: 561, suffix: "", label: "automated tests before every release" },
-  { value: 1000, suffix: "", label: "resumes ranked in a single batch" },
-  { value: 20, suffix: "+", label: "clients since 2024" },
+/** The "About" bento numbers: production depth that complements the hero stats. */
+export const productionStats = [
+  { value: "2", label: "cafés live on ToffeeOS: SPILL and Loom" },
+  { value: "~5,000", label: "real orders processed in production" },
+  { value: "~4,500", label: "real payments processed in production" },
+  { value: "3 yrs", label: "shipping software for paying clients" },
 ];
 
 export const flagship = {
@@ -61,7 +68,8 @@ export const flagship = {
   summary:
     "Multi-tenant restaurant software that runs SPILL and Loom in Bahawalpur: the till, the kitchen screen, inventory, delivery riders, QR table ordering and reports.",
   url: "https://toffeeos.com/",
-  caseStudy: "/toffeeos-case-study.pdf",
+  caseStudy: "/work/toffeeos",
+  caseStudyPdf: "/toffeeos-case-study.pdf",
   image: "/work/toffeeos.webp",
   features: [
     {
@@ -149,41 +157,58 @@ export const recruitAI = {
   matched: ["python", "fastapi", "postgresql", "docker", "pytest"],
 };
 
-export const projects: { kicker: string; badge?: string; title: string; body: string; tech: string }[] = [
+export type ProjectVisual = "autotwin" | "dentalos" | "echallan";
+
+/**
+ * Selected work under RecruitAI. Each card has a visual slot and a link slot:
+ * drop a screenshot path into `image` to replace the coded diagram, and add
+ * repo/demo URLs to `links` when they're public.
+ */
+export const projects: {
+  kicker: string;
+  badge?: string;
+  title: string;
+  body: string;
+  tech: string;
+  visual: ProjectVisual;
+  visualLabel: string;
+  image?: string;
+  links: Link[];
+}[] = [
+  {
+    kicker: "Final-year project · Simulation",
+    title: "AutoTwin",
+    body: "Zero-trust security sandbox: a JSON floor plan becomes a 3D building where 50+ simulated agents pass access checkpoints while attacks run. I lead the frontend and analytics.",
+    tech: "Unreal Engine 5.5 · FastAPI · MQTT · Flutter",
+    visual: "autotwin",
+    visualLabel: "System architecture",
+    links: [],
+  },
+  {
+    kicker: "Clinic software · SaaS",
+    badge: "In development",
+    title: "DentalOS",
+    body: "Multi-tenant dental clinic software: scheduling, billing and inventory, with WhatsApp appointment reminders in progress.",
+    tech: "Next.js · TypeScript · Supabase",
+    visual: "dentalos",
+    visualLabel: "Data model preview",
+    links: [],
+  },
   {
     kicker: "Computer vision",
     title: "Automated E-Challan",
     body: "Flags drivers without seatbelts, reads the number plate with OCR and pulls the owner’s record to issue the challan with no manual steps.",
     tech: "Python · OpenCV · OCR",
-  },
-  {
-    kicker: "Final-year project",
-    title: "AutoTwin",
-    body: "Zero-trust security sandbox: a JSON floor plan becomes a 3D building where 50+ simulated agents pass access checkpoints while attacks run. I lead the frontend and analytics.",
-    tech: "Unreal Engine 5.5 · FastAPI · MQTT · Flutter",
-  },
-  {
-    kicker: "Clinic software",
-    badge: "In development",
-    title: "DentalOS",
-    body: "Multi-tenant dental clinic software: scheduling, billing and inventory, with WhatsApp appointment reminders in progress.",
-    tech: "Next.js · TypeScript · Supabase",
-  },
-  {
-    kicker: "Deep learning",
-    title: "Real-time Object Detection",
-    body: "Detects and labels 50+ types of real-world objects from live video.",
-    tech: "Python · OpenCV · YOLO · PyTorch",
-  },
-  {
-    kicker: "Systems",
-    title: "Parallel Computing",
-    body: "C++ programs parallelised with OpenMP and run on AWS EC2, plus distributed-memory MPI programs in C.",
-    tech: "C / C++ · OpenMP · MPI · AWS EC2",
+    visual: "echallan",
+    visualLabel: "Detection pipeline",
+    links: [],
   },
 ];
 
-export const moreProjects = [
+/** Older and coursework projects. Not shown on the page; the chatbot still knows them. */
+export const archiveProjects = [
+  { title: "Real-time Object Detection", body: "Detects and labels 50+ types of real-world objects from live video. Python, OpenCV, YOLO, PyTorch." },
+  { title: "Parallel Computing", body: "C++ programs parallelised with OpenMP and run on AWS EC2, plus distributed-memory MPI programs in C." },
   { title: "Face Mask Detection", body: "Real-time deep learning on live video, with visual and audio alerts." },
   { title: "Heart Disease Prediction", body: "Classification models estimating risk from healthcare data." },
   { title: "Melodify", body: "Offline music app in Flutter with caching and background playback." },
@@ -197,15 +222,30 @@ export type Website = {
   url: string;
   image: string;
   accent: string;
+  /** "production": a business runs on it today. "prototype": a live, clickable build made for the client. */
+  status: "production" | "prototype";
+};
+
+export const STATUS_LABEL: Record<Website["status"], string> = {
+  production: "Live Production",
+  prototype: "Live Prototype",
 };
 
 export const websites: Website[] = [
-  { name: "SPILL", kind: "Specialty coffee · Bahawalpur", summary: "Scroll-driven story and a QR scan-to-join loyalty card.", url: "https://spillpk.com/", image: "/work/spill.webp", accent: "#1d1d1f" },
-  { name: "Blanco Bake Shop", kind: "Bakery & café · Wah Cantt", summary: "Menu, custom cake requests and FoodPanda ordering.", url: "https://blancoo.vercel.app/", image: "/work/blanco.webp", accent: "#b0855b" },
-  { name: "Brula by Janan", kind: "Boutique coffee · Bahawalpur", summary: "An editorial menu and a feel for the space.", url: "https://brula.vercel.app/", image: "/work/brula.webp", accent: "#6b4a35" },
-  { name: "Al-Kousar Properties", kind: "Real estate · DHA Bahawalpur", summary: "180+ listings, services and lead forms.", url: "https://alkousarproperties.vercel.app/", image: "/work/alkousar.webp", accent: "#0b5d3b" },
-  { name: "CAKOO", kind: "Bakery & pizza · Wah Cantt", summary: "Full menu with WhatsApp ordering.", url: "https://cakooo.vercel.app/", image: "/work/cakoo.webp", accent: "#d6336c" },
-  { name: "The Trim Town Studio", kind: "Barbershop · Bahawalpur", summary: "Redesign concept with one-tap booking.", url: "https://trimtown.vercel.app/", image: "/work/trimtown.webp", accent: "#0071e3" },
+  {
+    name: "SPILL",
+    kind: "Specialty coffee · Bahawalpur",
+    summary: "Scroll-driven brand story with a QR scan-to-join loyalty card wired into ToffeeOS, the till SPILL rings up every order on.",
+    url: "https://spillpk.com/",
+    image: "/work/spill.webp",
+    accent: "#1d1d1f",
+    status: "production",
+  },
+  { name: "Blanco Bake Shop", kind: "Bakery & café · Wah Cantt", summary: "Menu, custom cake requests and FoodPanda ordering.", url: "https://blancoo.vercel.app/", image: "/work/blanco.webp", accent: "#b0855b", status: "prototype" },
+  { name: "Brula by Janan", kind: "Boutique coffee · Bahawalpur", summary: "An editorial menu and a feel for the space.", url: "https://brula.vercel.app/", image: "/work/brula.webp", accent: "#6b4a35", status: "prototype" },
+  { name: "Al-Kousar Properties", kind: "Real estate · DHA Bahawalpur", summary: "180+ listings, services and lead forms.", url: "https://alkousarproperties.vercel.app/", image: "/work/alkousar.webp", accent: "#0b5d3b", status: "prototype" },
+  { name: "CAKOO", kind: "Bakery & pizza · Wah Cantt", summary: "Full menu with WhatsApp ordering.", url: "https://cakooo.vercel.app/", image: "/work/cakoo.webp", accent: "#d6336c", status: "prototype" },
+  { name: "The Trim Town Studio", kind: "Barbershop · Bahawalpur", summary: "Services menu with one-tap booking.", url: "https://trimtown.vercel.app/", image: "/work/trimtown.webp", accent: "#0071e3", status: "prototype" },
 ];
 
 export const experience = [
@@ -237,7 +277,7 @@ export const botExtras: string[] = [
   "Looking for remote, paid roles at fast-moving startups and product teams. Open to junior full-stack, frontend, backend, AI/automation engineering, n8n development, computer vision / ML engineering, QA and test automation, AI training and evaluation, developer support, and agency web development.",
   "Contract, part-time or full-time all work for him. He's most useful where software meets real small businesses: restaurants, retail, clinics and services.",
   // Availability
-  "Available now, with no notice period. Works remotely from Islamabad (Pakistan Standard Time, UTC+5): can cover European hours fully and overlaps about 4 hours with US hours.",
+  "Available now, with no notice period, for 30–40 hours a week alongside his final year. Works remotely from Islamabad (Pakistan Standard Time, UTC+5): can cover European hours fully and overlaps about 4 hours with US hours.",
   "Happy to start with a paid trial project to prove himself. Paid internships are fine; he doesn't do unpaid work.",
   // Story
   "Has built software for real clients for about 3 years: web developer at Evangeline Media (2023–2025), then founded Krimsols, a software company in Islamabad that has delivered work for 20+ clients since 2024.",
@@ -260,13 +300,13 @@ export const botExtras: string[] = [
   // Extra skills not shown on the site
   "Other skills: JavaScript, HTML/CSS, responsive and animated sites, REST APIs, webhooks, Socket.IO, SQL, LLM workflows and agents, prompt design, AI output validation, multilingual replies (English, Roman Urdu, Arabic), Gemini API, Google Sheets and Gmail APIs, Java, Rust, C#, WordPress/WooCommerce.",
   // Contact
-  "Best way to reach him: email amarabdulrehman123@gmail.com, or LinkedIn.",
+  "Best way to reach him: email amar@amarabdurrehman.me, or LinkedIn.",
 ];
 
 /** Topics the bot must not discuss; it redirects them to email instead. */
 export const botOffLimits = [
   "salary, rates or pay expectations",
-  "committing to a specific start date or working hours (it may say he's available now and his time-zone overlap)",
+  "committing to a specific start date or exact schedule (it may say he's available now for 30–40 hours a week, and his time-zone overlap)",
   "his age",
   "his grades",
   "client details beyond what's public on this site",
@@ -279,3 +319,25 @@ export const suggestedQuestions = [
   "Is he available for remote roles?",
   "What’s his experience with AI?",
 ];
+
+/**
+ * Which tools each featured project actually uses (labels match `stack` items).
+ * Drives the Stack filter and the Role-Fit Matcher, so keep it truthful.
+ */
+export type ProjectKey = "toffeeos" | "recruitai" | "autotwin" | "dentalos" | "echallan";
+
+export const projectTech: Record<ProjectKey, { title: string; anchor: string; tech: string[] }> = {
+  toffeeos: {
+    title: "ToffeeOS",
+    anchor: "toffeeos",
+    tech: ["TypeScript", "Next.js", "React", "Node.js", "PostgreSQL", "Supabase", "Prisma", "Playwright", "Vitest", "Git", "Vercel"],
+  },
+  recruitai: { title: "RecruitAI", anchor: "work", tech: ["Python", "Flask", "Git", "Vercel"] },
+  autotwin: { title: "AutoTwin", anchor: "work", tech: ["Python", "FastAPI", "Flutter", "Git"] },
+  dentalos: { title: "DentalOS", anchor: "work", tech: ["TypeScript", "Next.js", "React", "PostgreSQL", "Supabase", "Git"] },
+  echallan: { title: "Automated E-Challan", anchor: "work", tech: ["Python", "OpenCV", "Git"] },
+};
+
+export const projectsUsing = (tech: string) =>
+  (Object.keys(projectTech) as ProjectKey[]).filter((k) => projectTech[k].tech.includes(tech));
+

@@ -29,10 +29,17 @@ type ChatCtx = {
   reset: () => void;
   /** Adds a message locally (e.g. the assistant confirming a sent lead). */
   append: (m: Omit<Msg, "id">) => void;
-  /** Whether the floating chat panel is open. */
+  /** Whether the Role-Fit / Ask drawer is open. Opening via setOpen lands on the Ask tab. */
   open: boolean;
   setOpen: (open: boolean | ((o: boolean) => boolean)) => void;
+  tab: DrawerTab;
+  setTab: (t: DrawerTab) => void;
+  /** Opens the drawer on the Role-Fit tab, optionally pre-filled with a job description. */
+  openFit: (jd?: string) => void;
+  fitSeed: string | null;
 };
+
+export type DrawerTab = "fit" | "ask";
 
 const Ctx = createContext<ChatCtx | null>(null);
 const uid = () => Math.random().toString(36).slice(2);
@@ -41,7 +48,22 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [status, setStatus] = useState<Status>("idle");
   const [error, setError] = useState<string | null>(null);
-  const [open, setOpen] = useState(false);
+  const [open, setOpenRaw] = useState(false);
+  const [tab, setTab] = useState<DrawerTab>("fit");
+  const [fitSeed, setFitSeed] = useState<string | null>(null);
+  const openRef = useRef(false);
+  const setOpen = useCallback((v: boolean | ((o: boolean) => boolean)) => {
+    const next = typeof v === "function" ? v(openRef.current) : v;
+    if (next && !openRef.current) setTab("ask");
+    openRef.current = next;
+    setOpenRaw(next);
+  }, []);
+  const openFit = useCallback((jd?: string) => {
+    setTab("fit");
+    setFitSeed(jd ?? null);
+    openRef.current = true;
+    setOpenRaw(true);
+  }, []);
   const abort = useRef<AbortController | null>(null);
   const history = useRef<Msg[]>([]);
 
@@ -113,7 +135,12 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     setStatus("idle");
   }, []);
 
-  return <Ctx.Provider value={{ messages, status, error, send, stop, reset, append, open, setOpen }}>{children}</Ctx.Provider>;
+  return <Ctx.Provider value={{ messages, status, error, send, stop, reset, append, open, setOpen, tab, setTab, openFit, fitSeed }}>{children}</Ctx.Provider>;
+}
+
+/** For components that may render outside the provider (e.g. the case-study footer). */
+export function useChatOptional() {
+  return useContext(Ctx);
 }
 
 export function useChat() {

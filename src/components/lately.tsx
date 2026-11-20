@@ -31,7 +31,7 @@ export function Lately() {
   };
 
   return (
-    <section id="hackathons" className="section-y border-t border-line bg-bg-alt">
+    <section id="hackathons" className="section-y scroll-mt-24 border-t border-line bg-bg-alt">
       <div className="container-apple">
         <SectionHeader
           id="hackathons"

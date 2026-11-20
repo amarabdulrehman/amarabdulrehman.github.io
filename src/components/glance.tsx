@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { MapPin } from "lucide-react";
-import { profile, proof, stats } from "@/lib/content";
+import { productionStats, profile, proof } from "@/lib/content";
 import { cn } from "@/lib/utils";
 import { AskTile } from "./chat/ask-amar";
-import { CountUp, Reveal } from "./motion";
+import { Reveal } from "./motion";
 import { SectionHeader } from "./section-header";
 import { SpotlightCard } from "./ui/spotlight-card";
 
@@ -21,21 +21,20 @@ function Cell({ className, delay = 0, children, core }: { className?: string; de
 }
 
 function Stat({ i }: { i: number }) {
-  const s = stats[i];
+  const s = productionStats[i];
   const hot = i === 0 || i === 3;
+  // Static figure, then label: correct on first paint and in reading order.
   return (
-    <div className="flex h-full flex-col justify-between p-8 sm:p-9">
-      <p className={cn("headline-lg", hot ? "text-accent" : "text-fg")}>
-        <CountUp to={s.value} suffix={s.suffix} />
-      </p>
-      <p className="mt-6 max-w-[15rem] font-mono text-[12px] uppercase leading-relaxed tracking-[0.08em] text-muted">{s.label}</p>
-    </div>
+    <p className="flex h-full flex-col justify-between p-8 sm:p-9">
+      <span className={cn("headline-lg tabular-nums", hot ? "text-accent" : "text-fg")}>{s.value}</span>{" "}
+      <span className="mt-6 max-w-[15rem] font-mono text-[12px] uppercase leading-relaxed tracking-[0.08em] text-muted">{s.label}</span>
+    </p>
   );
 }
 
 export function Glance() {
   return (
-    <section id="about" className="section-y">
+    <section id="about" className="section-y scroll-mt-24">
       <div className="container-apple">
         <SectionHeader
           id="about"
