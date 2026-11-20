@@ -7,19 +7,19 @@ import { Modal } from "./ui/modal";
 const TIMELINE = [
   {
     k: "Signal",
-    v: "A pre-release run of the end-to-end suite failed on a checkout flow: the bill’s database transaction hit Prisma’s interactive-transaction time limit and was aborted.",
+    v: "Before a release, the automated suite (333 Playwright end-to-end + 228 Vitest unit tests) went red: a Prisma database transaction was timing out.",
   },
   {
     k: "Why it mattered",
-    v: "At the till, mid-rush, that would have meant a failed checkout on a real customer’s order. In the test run, it meant a red build.",
+    v: "ToffeeOS runs live tills at SPILL and Loom. In production, that timeout would have surfaced at the counter, mid-service, on a real customer’s bill.",
   },
   {
-    k: "What the tests proved",
-    v: "Because the write was a single transaction, the timeout rolled everything back: no half-written bill, no orphaned line items, no tax row without its order.",
+    k: "Why nothing was lost",
+    v: "Prisma rolls a transaction back when it times out, so a failed write leaves no half-saved bill behind. The test caught it; no customer ever saw it.",
   },
   {
-    k: "Fix",
-    v: "Keep the transaction to the writes that must succeed together, do slower work outside it, and retry the whole bill safely if it’s aborted. The suite then went green and the release shipped.",
+    k: "Outcome",
+    v: "Fixed before release and re-verified by the same suite. The release shipped green, and the bug never reached a café.",
   },
 ];
 
@@ -71,11 +71,11 @@ export function PrismaStory() {
         </ol>
 
         <pre className="mx-6 mb-6 overflow-x-auto rounded-xl bg-bg-alt px-4 py-3 font-mono text-[12px] leading-relaxed text-muted">
-          <span className="text-fg">✗</span> checkout › rings up a bill and writes tax{"\n"}
-          {"  "}Transaction aborted: interactive transaction timed out{"\n"}
-          {"  "}<span className="text-emerald-600 dark:text-emerald-400">rolled back · 0 rows written</span>
+          <span className="text-fg">✗</span> pre-release run{"\n"}
+          {"  "}Prisma transaction timed out{"\n"}
+          {"  "}<span className="text-emerald-600 dark:text-emerald-400">rolled back · no partial bill</span>
           {"\n\n"}
-          <span className="text-emerald-600 dark:text-emerald-400">✓</span> 561 passed · release unblocked
+          <span className="text-emerald-600 dark:text-emerald-400">✓</span> fixed · suite green · release shipped
         </pre>
         <p className="flex items-center gap-2 border-t border-line px-6 py-4 text-[12px] text-muted">
           <FlaskConical className="size-3.5" /> Replay it live with “Simulate DB Timeout” in the ToffeeOS lab.

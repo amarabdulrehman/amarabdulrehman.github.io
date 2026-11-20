@@ -410,8 +410,8 @@ export function TaxPill() {
       <dl className="mt-4 grid grid-cols-3 gap-2 font-mono tabular-nums" aria-live="polite">
         {[
           ["Order", pkr(ORDER)],
+          ["Rate", `${RATES[method] * 100}%`],
           ["Tax", pkr(tax)],
-          ["Total", pkr(ORDER + tax)],
         ].map(([k, v]) => (
           <div key={k}>
             <dt className="text-[10.5px] uppercase tracking-[0.08em] text-muted">{k}</dt>

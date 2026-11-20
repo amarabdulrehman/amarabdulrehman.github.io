@@ -204,8 +204,8 @@ export default function ToffeeOSCaseStudy() {
               </p>
               <div className="mt-2 grid gap-3 sm:grid-cols-2">
                 {[
-                  ["Paid in cash", "16%", "Rs 160 tax on a Rs 1,000 order"],
-                  ["Paid by card", "8%", "Rs 80 tax on a Rs 1,000 order"],
+                  ["Paid in cash", "16%", "16% of Rs 1,000 = Rs 160"],
+                  ["Paid by card", "8%", "8% of Rs 1,000 = Rs 80"],
                 ].map(([k, rate, ex]) => (
                   <div key={k} className="rounded-2xl border border-line bg-card p-6">
                     <p className="eyebrow">{k}</p>
