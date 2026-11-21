@@ -10,8 +10,9 @@
  * the site reads this, so update it here only. Leave `value` null to hide the number.
  */
 export const ordersPerDay: { value: string | null; asOf: string } = {
-  value: null,
-  asOf: "",
+  // pulse avgDailyOrders30d = 82.4 on 2026-11-21 (ACTIVE tenants, voided/cancelled excluded)
+  value: "80+",
+  asOf: "Nov 2026",
 };
 const ORDERS = ordersPerDay.value;
 
@@ -34,7 +35,7 @@ export const profile = {
   graduation: "July 2027",
   headline: "Software that real businesses run on.",
   intro:
-    `I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés run every order through the restaurant system I built${ORDERS ? ` (about ${ORDERS} a day, 30-day average)` : ""}, and I’ve shipped software for 20+ clients since 2024.`,
+    `I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés run every order through the restaurant system I built${ORDERS ? ` (${ORDERS} a day, 30-day average)` : ""}, and I’ve shipped software for 20+ clients since 2024.`,
 };
 
 /** The hero's code-style status card. Only facts stated elsewhere on the site. */
