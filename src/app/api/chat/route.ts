@@ -1,6 +1,7 @@
 import { ApiError, GoogleGenAI, type GenerateContentResponse } from "@google/genai";
 import { buildSystemPrompt } from "@/lib/knowledge";
 import { LEAD_SENTINEL, toDraft } from "@/lib/lead";
+import { CHAT_LIMIT, clientIp, rateLimited } from "@/lib/rate-limit";
 
 type ChatMessage = { role: "user" | "assistant"; content: string };
 
@@ -70,21 +71,6 @@ function shouldTryNextKey(err: unknown): boolean {
     status === 503 ||
     /RESOURCE_EXHAUSTED|quota|rate limit|API_KEY_INVALID|PERMISSION_DENIED|UNAVAILABLE|overloaded/i.test(msg)
   );
-}
-
-/* ---------- Rate limit per visitor: 20 requests / 10 minutes ---------- */
-
-const WINDOW_MS = 10 * 60 * 1000;
-const LIMIT = 20;
-const hits = new Map<string, number[]>();
-
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  hits.set(ip, recent);
-  if (hits.size > 5000) hits.clear();
-  return recent.length > LIMIT;
 }
 
 function parse(body: unknown): ChatMessage[] | null {
@@ -163,8 +149,7 @@ export async function POST(req: Request) {
     return Response.json({ error: "The assistant isn’t configured yet." }, { status: 503 });
   }
 
-  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
-  if (rateLimited(ip)) {
+  if (await rateLimited(CHAT_LIMIT, clientIp(req))) {
     return Response.json({ error: "You’re sending messages quickly. Try again in a few minutes." }, { status: 429 });
   }
 

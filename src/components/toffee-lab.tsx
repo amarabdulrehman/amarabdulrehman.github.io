@@ -34,7 +34,7 @@ export function PulseBar() {
   const parts = [
     pulse.label,
     STATUS_TEXT[pulse.status],
-    `${pulse.dailyOrders} daily orders`,
+    pulse.orders,
     ...(pulse.failedSyncs !== null ? [`${pulse.failedSyncs} failed syncs`] : []),
   ];
 

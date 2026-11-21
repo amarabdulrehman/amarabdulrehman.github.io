@@ -4,7 +4,8 @@ export type Pulse = {
   source: "live" | "static";
   label: string;
   status: "operational" | "degraded" | "down" | "in-production";
-  dailyOrders: string;
+  /** Pre-formatted order figure, e.g. "42 orders/day (30-day avg)". */
+  orders: string;
   failedSyncs: number | null;
   updatedAt: string | null;
 };
@@ -13,7 +14,7 @@ export const STATIC_PULSE: Pulse = {
   source: "static",
   label: "SPILL & Loom POS",
   status: "in-production",
-  dailyOrders: "200+",
+  orders: "~5,000 orders processed",
   failedSyncs: null,
   updatedAt: null,
 };

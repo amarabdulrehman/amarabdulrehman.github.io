@@ -4,6 +4,7 @@ import {
   experience,
   flagship,
   lately,
+  testimonials,
   archiveProjects,
   STATUS_LABEL,
   profile,
@@ -65,8 +66,13 @@ export function buildSystemPrompt(): string {
   push();
   push("RECENT WORK");
   lately.forEach((p) => {
-    push(`- ${p.title} (${p.kicker}${p.badge ? `, ${p.badge}` : ""}): ${p.body} Tech: ${p.tech}.${p.links.length ? " Links: " + p.links.map((l) => `${l.label} ${l.href}`).join(", ") : ""}`);
+    push(`- ${p.title} (${p.kicker}${p.badge ? `, ${p.badge}` : ""}): ${p.body} Tech: ${p.tech}.${p.caseStudy ? ` Case study: ${profile.site}${p.caseStudy}.` : ""}${p.links.length ? " Links: " + p.links.map((l) => `${l.label} ${l.href}`).join(", ") : ""}`);
   });
+  if (testimonials.length) {
+    push();
+    push("WHAT CLIENTS SAY (quote verbatim only)");
+    testimonials.forEach((t) => push(`- ${t.name}, ${t.role}, ${t.org} (${t.context}): "${t.quote}"`));
+  }
   push();
   push("SELECTED PROJECTS");
   push(`- ${recruitAI.title} (${recruitAI.kicker}): ${recruitAI.body} Tech: ${recruitAI.tech}. Live demo: ${recruitAI.demo}`);

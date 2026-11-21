@@ -13,6 +13,7 @@ import { SectionIndex } from "@/components/section-index";
 import { Contact, Experience, Footer } from "@/components/sections";
 import { SelectedWork } from "@/components/selected-work";
 import { Stack } from "@/components/stack";
+import { Testimonials } from "@/components/testimonials";
 import { Websites } from "@/components/websites";
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
           <SelectedWork />
           <Lately />
           <Websites />
+          <Testimonials />
           <Experience />
           <Stack />
           <Contact />

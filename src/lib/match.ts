@@ -70,7 +70,7 @@ const PROJECTS: ProjectProfile[] = [
   {
     key: "toffeeos",
     terms: ["TypeScript", "JavaScript", "Next.js", "React", "Node.js", "PostgreSQL", "Supabase", "Prisma", "Playwright", "Vitest", "Testing & CI", "Realtime", "Offline-first", "Multi-tenant SaaS", "Vercel", "REST APIs", "Product ownership", "Git"],
-    proof: "ToffeeOS: multi-tenant, offline-first POS running 2 cafés at 200+ orders/day, gated by 561 automated tests",
+    proof: "ToffeeOS: multi-tenant, offline-first POS running 2 cafés (~5,000 real orders so far), gated by 561 automated tests",
     why: (h) => `Production proof for ${h.slice(0, 4).join(", ")}: built solo, live at SPILL and Loom, 333 Playwright + 228 Vitest tests before every release.`,
     link: "/work/toffeeos",
   },

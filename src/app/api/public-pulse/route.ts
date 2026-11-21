@@ -16,14 +16,20 @@ function parse(x: unknown): Pulse | null {
   if (!x || typeof x !== "object") return null;
   const o = x as Record<string, unknown>;
   const status = typeof o.status === "string" && STATUSES.has(o.status) ? (o.status as Pulse["status"]) : null;
-  const orders = typeof o.dailyOrders === "number" && o.dailyOrders >= 0 ? o.dailyOrders : null;
+  const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) && v >= 0 ? v : null);
+  // Prefer the 30-day average (steadier, and what the site's copy quotes); fall back to the last 24h.
+  const avg = num(o.avgDailyOrders30d);
+  const day = num(o.dailyOrders);
   const failed = typeof o.failedSyncs === "number" && o.failedSyncs >= 0 ? Math.round(o.failedSyncs) : null;
-  if (!status || orders === null) return null;
+  if (!status || (avg === null && day === null)) return null;
   return {
     source: "live",
     label: STATIC_PULSE.label,
     status,
-    dailyOrders: orders.toLocaleString("en-US"),
+    orders:
+      avg !== null
+        ? `${Math.round(avg).toLocaleString("en-US")} orders/day (30-day avg)`
+        : `${day!.toLocaleString("en-US")} orders in 24h`,
     failedSyncs: failed,
     updatedAt: typeof o.updatedAt === "string" ? o.updatedAt : new Date().toISOString(),
   };

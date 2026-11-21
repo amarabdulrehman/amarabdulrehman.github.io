@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import Link from "next/link";
+import { ArrowRight, ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { lately } from "@/lib/content";
 import { Reveal } from "./motion";
@@ -74,8 +75,13 @@ export function Lately() {
               <h3 className="mt-4 text-[24px] font-semibold leading-tight tracking-[-0.03em]">{p.title}</h3>
               <p className="mt-3 flex-1 text-[15px] leading-relaxed text-muted">{p.body}</p>
               <p className="mt-6 font-mono text-[12px] text-muted">{p.tech}</p>
-              {p.links.length > 0 && (
+              {(p.links.length > 0 || p.caseStudy) && (
                 <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 border-t border-line pt-4 text-[15px]">
+                  {p.caseStudy && (
+                    <Link href={p.caseStudy} className="link-arrow font-semibold">
+                      Case study <ArrowRight className="size-3.5" />
+                    </Link>
+                  )}
                   {p.links.map((l) => (
                     <a key={l.href} href={l.href} target="_blank" rel="noopener noreferrer" className="link-arrow">
                       {l.label} <ArrowUpRight className="size-3.5" />

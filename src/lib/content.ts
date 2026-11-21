@@ -4,6 +4,17 @@
  * so updating a fact here updates it everywhere.
  */
 
+/**
+ * ToffeeOS orders per day: the 30-day average across SPILL and Loom, from the
+ * ToffeeOS pulse endpoint (`avgDailyOrders30d`). Every "orders a day" claim on
+ * the site reads this, so update it here only. Leave `value` null to hide the number.
+ */
+export const ordersPerDay: { value: string | null; asOf: string } = {
+  value: null,
+  asOf: "",
+};
+const ORDERS = ordersPerDay.value;
+
 export const profile = {
   name: "Amar Abdur Rehman",
   firstName: "Amar",
@@ -23,7 +34,7 @@ export const profile = {
   graduation: "July 2027",
   headline: "Software that real businesses run on.",
   intro:
-    "I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés take 200+ orders a day on the restaurant system I built, and I’ve shipped software for 20+ clients since 2024.",
+    `I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés run every order through the restaurant system I built${ORDERS ? ` (about ${ORDERS} a day, 30-day average)` : ""}, and I’ve shipped software for 20+ clients since 2024.`,
 };
 
 /** The hero's code-style status card. Only facts stated elsewhere on the site. */
@@ -41,7 +52,9 @@ export const config: { key: string; value: string | string[] }[] = [
  * (no count-up), so they always match the copy around them.
  */
 export const stats = [
-  { value: "200+", label: "orders a day on ToffeeOS" },
+  ORDERS
+    ? { value: ORDERS, label: "orders a day on ToffeeOS (30-day avg)" }
+    : { value: "~5,000", label: "real orders processed on ToffeeOS" },
   { value: "561", label: "automated tests before every release" },
   { value: "1,000", label: "resumes ranked in a single batch" },
   { value: "20+", label: "paying clients since 2024" },
@@ -87,7 +100,9 @@ export const flagship = {
   ],
   metrics: [
     { value: "2", label: "live cafés: SPILL and Loom" },
-    { value: "200+", label: "orders a day across them" },
+    ORDERS
+      ? { value: ORDERS, label: "orders a day (30-day avg)" }
+      : { value: "~5,000", label: "real orders processed" },
     { value: "561", label: "tests before every release" },
   ],
   stack: ["Next.js", "TypeScript", "Prisma", "Supabase", "Playwright", "Vercel"],
@@ -102,6 +117,8 @@ export const lately: {
   body: string;
   tech: string;
   links: Link[];
+  /** path of the full write-up under /work, if there is one */
+  caseStudy?: string;
 }[] = [
   {
     kicker: "Hackathon · Nov 2026",
@@ -109,6 +126,7 @@ export const lately: {
     title: "Meow Meow AI Front Desk",
     body: "An AI receptionist for a vet clinic, built in n8n. It books, cancels and reschedules on Google Calendar, logs to Sheets and hands anything medical to staff. The AI reads the message; plain code decides and acts, and rolls the calendar back if a write fails. Took 1st Runner-Up at AI Agents Arena 2.0 (CAIS, CUI Tech Fest), then I extended it for the PayPal AI Hackathon with refundable Braintree no-show deposits, automatic refunds and AI visit billing that staff approve.",
     tech: "n8n · Gemini · PayPal Braintree · Google Calendar",
+    caseStudy: "/work/meow-meow-ai-front-desk",
     links: [
       { label: "Demo video", href: "https://youtu.be/TzSrkGklnqM" },
       { label: "Devpost", href: "https://devpost.com/software/meow-meow-ai-front-desk" },
@@ -120,6 +138,7 @@ export const lately: {
     title: "MTM Planner",
     body: "Built at MTM Version 2.0 (GDGoC CUI Wah). Reads emails, WhatsApp texts and notices in English or Roman Urdu and plans a whole event: venue, schedule, food, judging and budget. The model only reads; the arithmetic and six validity checks run in code, and every model call is traced.",
     tech: "Node.js · Gemini Flash-Lite",
+    caseStudy: "/work/mtm-planner",
     links: [
       { label: "Live demo", href: "https://mtm-planner.vercel.app" },
       { label: "Code", href: "https://github.com/amarabdulrehman/mtm-planner" },
@@ -131,6 +150,7 @@ export const lately: {
     title: "RUTool benchmark",
     body: "Tests whether AI agents pick the right tool when people write in Roman Urdu or Hinglish, where “kal” means both yesterday and tomorrow and “paune do lakh” means 175,000. The announcement post passed 40,000 impressions on LinkedIn.",
     tech: "Python · LLM evaluation",
+    caseStudy: "/work/rutool",
     links: [],
   },
   {
@@ -341,3 +361,25 @@ export const projectTech: Record<ProjectKey, { title: string; anchor: string; te
 export const projectsUsing = (tech: string) =>
   (Object.keys(projectTech) as ProjectKey[]).filter((k) => projectTech[k].tech.includes(tech));
 
+
+/**
+ * Client and colleague quotes. VERBATIM ONLY, from a real person who has agreed to be
+ * quoted by name (a LinkedIn recommendation, a WhatsApp or email message, a review).
+ * Never paraphrase or write one on someone's behalf: recruiters do check.
+ * While this list is empty the "Kind words" section is hidden and drops out of the
+ * numbering, so the site never shows placeholder quotes.
+ */
+export type Testimonial = {
+  quote: string;
+  name: string;
+  /** e.g. "Owner" */
+  role: string;
+  /** e.g. "SPILL, Bahawalpur" */
+  org: string;
+  /** what Amar did for them, e.g. "ToffeeOS client since 2025" */
+  context: string;
+  /** optional public source, e.g. the LinkedIn recommendation URL */
+  source?: string;
+};
+
+export const testimonials: Testimonial[] = [];

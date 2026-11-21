@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { ArrowDownToLine, ArrowUpRight, ChevronRight, GraduationCap, MapPin } from "lucide-react";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
+import { trackEvent } from "./site-analytics";
 import { profile, recruitAI, stats } from "@/lib/content";
 import { useApp } from "./app-state";
 import { CopyEmailButton } from "./copy-email";
@@ -11,7 +12,7 @@ import { TestFitButton } from "./test-fit-button";
 const PROOFS = [
   {
     name: "ToffeeOS",
-    line: "Multi-tenant, offline-first café POS: 2 cafés, 200+ orders/day, 561 tests gate every release.",
+    line: "Multi-tenant, offline-first café POS: 2 cafés live, ~5,000 real orders, 561 tests gate every release.",
     href: "/work/toffeeos",
     cta: "Case study",
     internal: true,
@@ -35,6 +36,9 @@ const PROOFS = [
 /** Renders either the full story or the one-screen briefing; the full page stays mounted (state preserved). */
 export function ModeSwitch({ children, footer }: { children: ReactNode; footer: ReactNode }) {
   const { recruiter } = useApp();
+  useEffect(() => {
+    if (recruiter) trackEvent("Recruiter mode");
+  }, [recruiter]);
   return (
     <>
       <main id="main">

@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, FileDown } from "lucide-react";
-import { CopyEmailButton } from "@/components/copy-email";
-import { ThemeToggle } from "@/components/nav";
+import { ArrowUpRight, FileDown } from "lucide-react";
+import { CaseCta, CaseHeader, MoreCaseStudies, Chapter as SharedChapter, ChapterIndex, FactRow } from "@/components/case-study";
 import { Footer } from "@/components/sections";
-import { flagship, productionStats, profile } from "@/lib/content";
+import { flagship, ordersPerDay, productionStats, profile } from "@/lib/content";
 
 const title = "ToffeeOS case study";
 const description =
@@ -20,8 +18,8 @@ export const metadata: Metadata = {
     url: `${profile.site}${flagship.caseStudy}`,
     title: `${title} | ${profile.name}`,
     description,
-    images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const CHAPTERS = [
@@ -51,25 +49,9 @@ const ARCHITECTURE = [
 
 function Chapter({ n, id, title, children }: { n: number; id: string; title: string; children: React.ReactNode }) {
   return (
-    <section id={id} aria-labelledby={`${id}-title`} className="scroll-mt-24 border-t border-line py-16 sm:py-20">
-      <div className="grid gap-6 md:grid-cols-[12rem_1fr] md:gap-10">
-        <p className="font-mono text-[12px] uppercase tracking-[0.12em] text-muted">
-          <span className="text-accent-text">{String(n).padStart(2, "0")}</span>
-          <span className="mx-2" aria-hidden>
-            ·
-          </span>
-          {CHAPTERS[n - 1].label}
-        </p>
-        <div className="max-w-2xl">
-          <h2 id={`${id}-title`} className="headline-md text-balance">
-            {title}
-          </h2>
-          <div className="mt-6 grid gap-5 text-[17px] leading-relaxed text-muted [&_strong]:font-semibold [&_strong]:text-fg">
-            {children}
-          </div>
-        </div>
-      </div>
-    </section>
+    <SharedChapter n={n} id={id} label={CHAPTERS[n - 1].label} title={title}>
+      {children}
+    </SharedChapter>
   );
 }
 
@@ -77,17 +59,7 @@ export default function ToffeeOSCaseStudy() {
   const [cafes, orders, payments] = productionStats;
   return (
     <>
-      <header id="top" className="sticky top-0 z-50 border-b border-line bg-glass backdrop-blur-2xl backdrop-saturate-[1.8]">
-        <div className="container-apple flex h-14 items-center justify-between">
-          <Link href="/#toffeeos" className="inline-flex items-center gap-2 text-[14px] font-medium text-muted hover:text-fg">
-            <ArrowLeft className="size-4" /> Back to portfolio
-          </Link>
-          <div className="flex items-center gap-2">
-            <span className="hidden font-mono text-[11px] uppercase tracking-[0.1em] text-muted sm:inline">Case study</span>
-            <ThemeToggle />
-          </div>
-        </div>
-      </header>
+      <CaseHeader />
 
       <main id="main">
         <article className="container-apple pt-16 pb-24 sm:pt-24">
@@ -103,19 +75,14 @@ export default function ToffeeOSCaseStudy() {
             keeps selling when the internet doesn’t.
           </p>
 
-          <dl className="mt-10 grid max-w-2xl grid-cols-2 gap-y-5 border-y border-line py-6 sm:grid-cols-4">
-            {[
+          <FactRow
+            facts={[
               ["Role", "Sole engineer, end to end"],
               ["Clients", "SPILL & Loom, Bahawalpur"],
               ["Stack", "Next.js · Prisma · Supabase"],
               ["Status", "In production"],
-            ].map(([k, v]) => (
-              <div key={k} className="pr-4">
-                <dt className="eyebrow">{k}</dt>
-                <dd className="mt-1.5 text-[14px] font-medium">{v}</dd>
-              </div>
-            ))}
-          </dl>
+            ]}
+          />
 
           <div className="mt-12 rounded-[22px] border border-line bg-[#1c1c1e] p-2 shadow-[0_40px_120px_-30px_color-mix(in_srgb,var(--accent)_35%,transparent)]">
             <div className="mb-2 flex gap-1.5 px-2 pt-1" aria-hidden>
@@ -134,18 +101,7 @@ export default function ToffeeOSCaseStudy() {
             />
           </div>
 
-          {/* chapter index */}
-          <nav aria-label="Chapters" className="mt-14">
-            <ol className="flex flex-wrap gap-2">
-              {CHAPTERS.map((c, i) => (
-                <li key={c.id}>
-                  <a href={`#${c.id}`} className="pill-tag hover:text-fg">
-                    <span className="text-accent-text">{String(i + 1).padStart(2, "0")}</span> {c.label}
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
+          <ChapterIndex chapters={CHAPTERS} />
 
           <div className="mt-14">
             <Chapter n={1} id="problem" title="The internet drops. The till can’t.">
@@ -246,9 +202,11 @@ export default function ToffeeOSCaseStudy() {
                 inventory, delivery riders, QR table ordering and reports. SPILL’s website also connects to it through a QR
                 scan-to-join loyalty card.
               </p>
-              <ul className="mt-2 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line">
+              <ul className={`mt-2 grid gap-px overflow-hidden rounded-2xl border border-line bg-line ${ordersPerDay.value ? "grid-cols-2" : "sm:grid-cols-3"}`}>
                 {[
-                  { value: "200+", label: "orders a day across both cafés" },
+                  ...(ordersPerDay.value
+                    ? [{ value: ordersPerDay.value, label: "orders a day across both cafés (30-day avg)" }]
+                    : []),
                   { value: orders.value, label: orders.label },
                   { value: payments.value, label: payments.label },
                   { value: cafes.value, label: "cafés live, one codebase" },
@@ -265,30 +223,19 @@ export default function ToffeeOSCaseStudy() {
             </Chapter>
           </div>
 
-          {/* CTA */}
-          <div className="bezel mt-6">
-            <div className="bezel-core flex flex-col gap-8 p-8 sm:p-12 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-md">
-                <p className="text-[26px] font-semibold leading-tight tracking-[-0.03em]">
-                  Hiring a remote engineer? <span className="text-accent">Let’s talk.</span>
-                </p>
-                <p className="mt-3 text-[15px] leading-relaxed text-muted">
-                  Available for remote full-stack and Python/AI roles, 30–40 hrs/week.
-                </p>
-              </div>
-              <div className="flex flex-wrap items-center gap-3">
-                <CopyEmailButton className="max-w-full" />
-                <a href={flagship.url} target="_blank" rel="noopener noreferrer" className="btn-secondary">
-                  toffeeos.com <ArrowUpRight className="size-4" />
-                </a>
-              </div>
-            </div>
-          </div>
+          <CaseCta
+            secondary={
+              <a href={flagship.url} target="_blank" rel="noopener noreferrer" className="btn-secondary">
+                toffeeos.com <ArrowUpRight className="size-4" />
+              </a>
+            }
+          />
           <p className="mt-6 text-[14px] text-muted">
             <a href={flagship.caseStudyPdf} download className="inline-flex items-center gap-1.5 underline underline-offset-4 hover:text-fg">
               <FileDown className="size-4" /> Download the one-page PDF version
             </a>
           </p>
+          <MoreCaseStudies current="toffeeos" />
         </article>
       </main>
       <Footer />

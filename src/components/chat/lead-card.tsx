@@ -6,6 +6,7 @@ import { useState, type ReactNode } from "react";
 import { profile } from "@/lib/content";
 import { LEAD_LIMITS, validateLead, type Lead } from "@/lib/lead";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "../site-analytics";
 import { useChat } from "./chat-context";
 
 type Status = "idle" | "sending" | "sent" | "error";
@@ -67,6 +68,7 @@ export function LeadCard({ draft }: { draft: Partial<Lead> }) {
       const data = (await res.json().catch(() => ({}))) as { ok?: boolean; confirmed?: boolean; error?: string };
       if (!res.ok || !data.ok) throw new Error(data.error ?? "Couldn’t send just now.");
       setStatus("sent");
+      trackEvent("Lead sent", { includeChat });
       append({
         role: "assistant",
         content: `Done, ${v.lead.name.split(" ")[0]}! Amar has your details and will email you at ${v.lead.email}.${

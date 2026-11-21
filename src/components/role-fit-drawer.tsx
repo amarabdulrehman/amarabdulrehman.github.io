@@ -2,6 +2,7 @@
 
 import { ArrowUpRight, Check, ClipboardCopy, Sparkles, Target, X } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { trackEvent } from "./site-analytics";
 import { profile } from "@/lib/content";
 import { matchRole, PRESETS } from "@/lib/match";
 import { cn } from "@/lib/utils";
@@ -92,10 +93,19 @@ function RoleFit() {
     if (!fitSeed) field.current?.focus({ preventScroll: true });
   }, [fitSeed]);
 
+  // count one match per drawer session, once the visitor has pasted enough of a JD to match
+  const tracked = useRef(false);
+  useEffect(() => {
+    if (!result || tracked.current) return;
+    tracked.current = true;
+    trackEvent("Role fit matched", { preset: role ?? "custom" });
+  }, [result, role]);
+
   const copy = async () => {
     if (!result) return;
     try {
       await navigator.clipboard.writeText(result.pitch);
+      trackEvent("Role fit pitch copied");
       setCopied(true);
       setTimeout(() => setCopied(false), 2200);
     } catch {}

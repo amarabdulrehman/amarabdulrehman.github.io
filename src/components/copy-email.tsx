@@ -2,6 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { trackEvent } from "./site-analytics";
 import { profile } from "@/lib/content";
 import { cn } from "@/lib/utils";
 
@@ -33,6 +34,7 @@ export function useCopyEmail() {
   }, []);
   const copy = async () => {
     if (!(await copyText(profile.email))) return;
+    trackEvent("Copy email");
     setCopied(true);
     if (timer.current) clearTimeout(timer.current);
     timer.current = setTimeout(() => setCopied(false), 2200);
