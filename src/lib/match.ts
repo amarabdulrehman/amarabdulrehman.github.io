@@ -38,6 +38,11 @@ const KNOWN: Term[] = [
   t("Machine learning", "machine learning", "\\bml\\b", "scikit", "sklearn"),
   t("n8n & automation", "n8n", "workflow automation", "automations?", "workflows?"),
   t("Claude Code", "claude code"),
+  t("Cursor", "cursor"),
+  t("Zapier", "zapier"),
+  t("Make.com", "make\\.com", "integromat"),
+  t("MongoDB", "mongo(?:db)?"),
+  t("Go", "golang"),
   t("Google Sheets / Gmail APIs", "google sheets", "gmail(?: api)?", "google workspace"),
   t("Flutter", "flutter", "dart"),
   t("Realtime", "real[- ]?time", "websockets?", "socket\\.io"),
@@ -58,18 +63,13 @@ const KNOWN: Term[] = [
 const GAPS: Term[] = [
   t("HubSpot", "hubspot"),
   t("Salesforce", "salesforce"),
-  t("Cursor", "cursor"),
-  t("Zapier", "zapier"),
-  t("Make.com", "make\\.com", "integromat"),
   t("Ruby / Rails", "ruby", "rails"),
   t("PHP / Laravel", "php", "laravel"),
-  t("MongoDB", "mongo(?:db)?"),
   t("LangChain", "langchain", "langgraph"),
   t("Svelte", "svelte(?:kit)?"),
   t("Docker", "docker", "containers?"),
   t("Kubernetes", "kubernetes", "k8s"),
   t("GraphQL", "graphql"),
-  t("Go", "golang"),
   t("Django", "django"),
   t("Redis", "redis"),
   t("Kafka", "kafka"),
@@ -86,7 +86,7 @@ const PROJECTS: ProjectProfile[] = [
     key: "toffeeos",
     terms: ["TypeScript", "JavaScript", "Next.js", "React", "Node.js", "PostgreSQL", "Supabase", "Prisma", "Playwright", "Vitest", "Testing & CI", "Realtime", "Offline-first", "Multi-tenant SaaS", "Vercel", "REST APIs", "Product ownership", "Git"],
     proof: "ToffeeOS: multi-tenant, offline-first POS running 2 cafés (~5,000 real orders so far), gated by 561 automated tests",
-    why: (h) => `Production proof for ${h.slice(0, 4).join(", ")}: I built and maintain it, using Claude Code; live at SPILL and Loom, 333 Playwright + 228 Vitest tests before every release.`,
+    why: (h) => `Production proof for ${h.slice(0, 4).join(", ")}: I built and maintain it; live at SPILL and Loom, 333 Playwright + 228 Vitest tests before every release.`,
     link: "/work/toffeeos",
   },
   {
@@ -153,7 +153,7 @@ export function matchRole(jd: string, role = "this role"): MatchResult {
   const text = ` ${jd.toLowerCase()} `;
   const matched = find(KNOWN, text);
   const gaps = find(GAPS, text);
-  if (!gaps.includes("Go") && GO_LANG.test(jd)) gaps.push("Go");
+  if (!matched.includes("Go") && GO_LANG.test(jd)) matched.push("Go");
   const recognised = matched.length + gaps.length;
   const score = recognised === 0 ? 0 : Math.round((matched.length / recognised) * 100);
 

@@ -104,16 +104,17 @@ test('chatbot facts: no "80+", no "paying client", never "solo"', () => {
 
 test("Role-Fit Matcher counts unused tools and leads AI JDs with agent work", () => {
   const r = matchRole("Automation engineer: build n8n workflows and LLM agents, sync leads into HubSpot, and ship fast with Cursor.");
-  expect(r.gaps).toEqual(expect.arrayContaining(["HubSpot", "Cursor"]));
+  expect(r.gaps).toEqual(["HubSpot"]);
+  expect(r.matched).toContain("Cursor");
   expect(r.score).toBeLessThan(100);
   expect(r.top.map((p) => p.key)).toEqual(["leaddesk", "meowmeow"]);
   expect(r.pitch).toContain("Lead Desk");
   expect(r.pitch).toContain("Meow Meow");
   for (const p of r.top) expect(p.why.toLowerCase()).not.toContain("solo");
 
-  expect(matchRole("Backend in Go, Ruby on Rails and Salesforce integrations.").gaps).toEqual(
-    expect.arrayContaining(["Go", "Ruby / Rails", "Salesforce"]),
-  );
-  expect(matchRole("You'll go live with customers fast using Python.").gaps).not.toContain("Go");
+  const backend = matchRole("Backend in Go and MongoDB, Ruby on Rails, Salesforce integrations, Zapier and Make.com.");
+  expect(backend.matched).toEqual(expect.arrayContaining(["Go", "MongoDB", "Zapier", "Make.com"]));
+  expect(backend.gaps).toEqual(expect.arrayContaining(["Ruby / Rails", "Salesforce"]));
+  expect(matchRole("You'll go live with customers fast using Python.").matched).not.toContain("Go");
   expect(matchRole(PRESETS[0].jd).top[0].key).toBe("toffeeos");
 });

@@ -77,7 +77,7 @@ export default function ToffeeOSCaseStudy() {
 
           <FactRow
             facts={[
-              ["Role", "I built and maintain it, using Claude Code"],
+              ["Role", "I built and maintain it"],
               ["Clients", "SPILL & Loom, Bahawalpur"],
               ["Stack", "Next.js · Prisma · Supabase"],
               ["Status", "In production"],

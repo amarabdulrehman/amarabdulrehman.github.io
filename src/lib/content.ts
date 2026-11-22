@@ -307,7 +307,7 @@ export const botExtras: string[] = [
   "He started Krimsols because local businesses were running on paper and WhatsApp and he knew he could build them something better. That's how ToffeeOS was born.",
   "Graduates with a BS in Computer Science from COMSATS University Islamabad in July 2027, while running Krimsols.",
   // How he works
-  "ToffeeOS: Amar built and maintains it, using Claude Code, and shipped it to two real cafés where it runs in production. Never describe it as built solo or by himself.",
+  "ToffeeOS: Amar built and maintains it, and shipped it to two real cafés where it runs in production. Never describe it as built solo or by himself.",
   "Ships fast because he builds with AI coding agents like Claude Code every day.",
   "Tests before he trusts: his automations retry on failure, check AI output before anything goes out, and alert a person when something breaks.",
   // Proudest work and what's next
@@ -323,7 +323,7 @@ export const botExtras: string[] = [
   "He regularly competes in hackathons and the Huawei ICT Competition, and likes building things under a deadline with a team.",
   "He's curious by nature, and that curiosity usually turns into something real: noticing cafés on paper led to ToffeeOS, and noticing AI agents misread Roman Urdu (where 'kal' means both yesterday and tomorrow) led to his RUTool benchmark.",
   // Extra skills not shown on the site
-  "Other skills: JavaScript, HTML/CSS, responsive and animated sites, REST APIs, webhooks, Socket.IO, SQL, LLM workflows and agents, prompt design, AI output validation, multilingual replies (English, Roman Urdu, Arabic), Gemini API, Google Sheets and Gmail APIs, Java, Rust, C#, WordPress/WooCommerce.",
+  "Other skills: JavaScript, HTML/CSS, responsive and animated sites, REST APIs, webhooks, Socket.IO, SQL, LLM workflows and agents, prompt design, AI output validation, multilingual replies (English, Roman Urdu, Arabic), Gemini API, Google Sheets and Gmail APIs, Java, Rust, C#, Go, MongoDB, Zapier, Make.com, Cursor, WordPress/WooCommerce.",
   // Contact
   "Best way to reach him: email amar@amarabdurrehman.me, or LinkedIn.",
 ];
