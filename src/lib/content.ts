@@ -32,7 +32,9 @@ export const profile = {
   portrait: "/amar-cutout.webp",
   availability: "Available for remote engineering roles (30–40 hrs/week)",
   hours: "30–40 hrs/week",
-  timezone: "Islamabad, PK (UTC+5) · 4+ hrs overlap with EU/UK & US East",
+  /** Same wording everywhere: hero pill, 15s mode, Contact, matcher pitch, chatbot. */
+  overlap: "overlaps fully with European hours and about 4 hours with US hours",
+  timezone: "Islamabad, PK (UTC+5) · overlaps fully with European hours and about 4 hours with US hours",
   graduation: "July 2027",
   headline: "Software that real businesses run on.",
   intro:
@@ -300,7 +302,7 @@ export const botExtras: string[] = [
   "Looking for remote, paid roles at fast-moving startups and product teams. Open to junior full-stack, frontend, backend, AI/automation engineering, n8n development, computer vision / ML engineering, QA and test automation, AI training and evaluation, developer support, and agency web development.",
   "Contract, part-time or full-time all work for him. He's most useful where software meets real small businesses: restaurants, retail, clinics and services.",
   // Availability
-  "Available now, with no notice period, for 30–40 hours a week alongside his final year. Works remotely from Islamabad (Pakistan Standard Time, UTC+5): can cover European hours fully and overlaps about 4 hours with US hours.",
+  "Available now, with no notice period, for 30–40 hours a week alongside his final year. Works remotely from Islamabad (Pakistan Standard Time, UTC+5): overlaps fully with European hours and about 4 hours with US hours.",
   "Happy to start with a paid trial project to prove himself. Paid internships are fine; he doesn't do unpaid work.",
   // Story
   "Has built software for real clients for about 3 years: web developer at Evangeline Media (2023–2025), then founded Krimsols, a software company in Islamabad that has delivered work for 20+ clients since 2024.",

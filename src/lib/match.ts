@@ -194,7 +194,7 @@ export function matchRole(jd: string, role = "this role"): MatchResult {
   const pitch = [
     `${profile.name}: ${profile.role}`,
     ...bullets.slice(0, 3),
-    `Remote, ${profile.hours}, UTC+5 (4+ hrs overlap with EU/UK & US East). Graduating ${profile.graduation}.`,
+    `Remote, ${profile.hours}, UTC+5 (${profile.overlap}). Graduating ${profile.graduation}.`,
     `${profile.email} · ${profile.site}`,
   ].join("\n");
 

@@ -88,6 +88,12 @@ for (const path of PAGES) {
     expect(await pageText(page, path)).not.toMatch(STALE_ORDERS);
   });
 
+  test(`${path}: one time-zone claim (full European overlap, ~4 hrs US)`, async ({ page }) => {
+    const text = await pageText(page, path);
+    expect(text).not.toContain("4+ hrs");
+    expect(text).not.toContain("US East");
+  });
+
   test(`${path}: never says "paying client"`, async ({ page }) => {
     expect((await pageText(page, path)).toLowerCase()).not.toContain("paying client");
   });

@@ -26,7 +26,7 @@ const AVAILABILITY = {
   remote: true,
   timezone: "UTC+5",
   location: "Islamabad, PK",
-  overlap: ["EU/UK", "US East (4+ hrs)"],
+  overlap: ["Europe (full)", "US (about 4 hrs)"],
   weekly_hours: "30–40 hrs",
   graduation: profile.graduation,
   email: profile.email,
