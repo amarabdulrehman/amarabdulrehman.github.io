@@ -25,10 +25,10 @@ const PROOFS = [
     internal: false,
   },
   {
-    name: "AutoTwin",
-    line: "Unreal Engine 5.5 zero-trust sandbox: 50+ simulated agents, FastAPI + MQTT telemetry.",
-    href: "#work",
-    cta: "Architecture",
+    name: "Meow Meow AI Front Desk",
+    line: "1st Runner-Up, AI Agents Arena 2.0: an n8n + Gemini vet-clinic receptionist that books on Google Calendar and rolls back failed writes.",
+    href: "/work/meow-meow-ai-front-desk",
+    cta: "Case study",
     internal: true,
   },
 ];

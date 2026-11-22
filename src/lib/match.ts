@@ -34,9 +34,11 @@ const KNOWN: Term[] = [
   t("PyTorch", "pytorch", "torch"),
   t("OpenCV", "opencv", "computer vision", "ocr"),
   t("NLP", "nlp", "natural language", "tf-?idf", "text classification", "ranking"),
-  t("LLMs & agents", "llms?", "gpt", "gemini", "openai", "anthropic", "claude", "ai agents?", "agentic", "rag", "prompt"),
+  t("LLMs & agents", "llms?", "gpt", "gemini", "openai", "anthropic", "claude", "ai agents?", "agents?", "agentic", "rag", "prompt", "chatbots?", "conversational ai"),
   t("Machine learning", "machine learning", "\\bml\\b", "scikit", "sklearn"),
-  t("n8n & automation", "n8n", "zapier", "workflow automation", "automations?"),
+  t("n8n & automation", "n8n", "workflow automation", "automations?", "workflows?"),
+  t("Claude Code", "claude code"),
+  t("Google Sheets / Gmail APIs", "google sheets", "gmail(?: api)?", "google workspace"),
   t("Flutter", "flutter", "dart"),
   t("Realtime", "real[- ]?time", "websockets?", "socket\\.io"),
   t("Offline-first", "offline", "pwa", "sync"),
@@ -49,8 +51,21 @@ const KNOWN: Term[] = [
   t("Product ownership", "founding", "0 ?(?:to|->|→) ?1", "zero to one", "ownership", "end[- ]to[- ]end ownership", "ship(?:ped|ping)? (?:to )?production", "startup"),
 ];
 
-/** Common asks Amar hasn't listed: shown honestly as gaps to discuss. */
+/**
+ * Tools Amar hasn't used: shown honestly under "Not yet" and counted against the
+ * coverage score, so a JD that names them can never read as 100%.
+ */
 const GAPS: Term[] = [
+  t("HubSpot", "hubspot"),
+  t("Salesforce", "salesforce"),
+  t("Cursor", "cursor"),
+  t("Zapier", "zapier"),
+  t("Make.com", "make\\.com", "integromat"),
+  t("Ruby / Rails", "ruby", "rails"),
+  t("PHP / Laravel", "php", "laravel"),
+  t("MongoDB", "mongo(?:db)?"),
+  t("LangChain", "langchain", "langgraph"),
+  t("Svelte", "svelte(?:kit)?"),
   t("Docker", "docker", "containers?"),
   t("Kubernetes", "kubernetes", "k8s"),
   t("GraphQL", "graphql"),
@@ -71,7 +86,7 @@ const PROJECTS: ProjectProfile[] = [
     key: "toffeeos",
     terms: ["TypeScript", "JavaScript", "Next.js", "React", "Node.js", "PostgreSQL", "Supabase", "Prisma", "Playwright", "Vitest", "Testing & CI", "Realtime", "Offline-first", "Multi-tenant SaaS", "Vercel", "REST APIs", "Product ownership", "Git"],
     proof: "ToffeeOS: multi-tenant, offline-first POS running 2 cafés (~5,000 real orders so far), gated by 561 automated tests",
-    why: (h) => `Production proof for ${h.slice(0, 4).join(", ")}: built solo, live at SPILL and Loom, 333 Playwright + 228 Vitest tests before every release.`,
+    why: (h) => `Production proof for ${h.slice(0, 4).join(", ")}: I built and maintain it, using Claude Code; live at SPILL and Loom, 333 Playwright + 228 Vitest tests before every release.`,
     link: "/work/toffeeos",
   },
   {
@@ -80,6 +95,20 @@ const PROJECTS: ProjectProfile[] = [
     proof: "RecruitAI: ranks 1,000 resumes in one batch with TF-IDF + cosine similarity, every score explainable",
     why: (h) => `Shows ${h.slice(0, 3).join(", ")} applied to a real hiring problem, with zero per-resume API cost.`,
     link: "https://screenerresume.vercel.app/",
+  },
+  {
+    key: "leaddesk",
+    terms: ["n8n & automation", "LLMs & agents", "Google Sheets / Gmail APIs", "REST APIs"],
+    proof: "Lead Desk: n8n + Gemini workflow that scores each enquiry hot/warm/cold/spam and replies in English, Roman Urdu or Arabic in under 10s in testing, with retries and AI-output guards (built and tested, not yet deployed to a client)",
+    why: (h) => `Automation work on ${h.slice(0, 3).join(", ")}: scores leads, replies in the customer’s language, retries on failure and validates AI output before it sends. Built and tested, not yet deployed to a client.`,
+    link: "/#hackathons",
+  },
+  {
+    key: "meowmeow",
+    terms: ["n8n & automation", "LLMs & agents", "Google Sheets / Gmail APIs", "REST APIs"],
+    proof: "Meow Meow AI Front Desk: n8n + Gemini vet-clinic receptionist that books on Google Calendar and rolls back failed writes; 1st Runner-Up, AI Agents Arena 2.0",
+    why: (h) => `An AI agent on ${h.slice(0, 3).join(", ")} that acts on real systems: the model reads, tested code decides, and failed calendar writes roll back. 1st Runner-Up at AI Agents Arena 2.0.`,
+    link: "/work/meow-meow-ai-front-desk",
   },
   {
     key: "autotwin",
@@ -113,19 +142,29 @@ export type MatchResult = {
   pitch: string;
 };
 
+/** JD wording that makes Lead Desk and Meow Meow the most relevant work. */
+const AI_ROLE = /\bn8n\b|automat|\bagents?\b|agentic|\bllms?\b|workflows?|chatbots?/i;
+/** "Go" the language, read case-sensitively from the original JD so the verb "go" doesn't count. */
+const GO_LANG = /(?:^|[\s,(/])Go(?=$|[\s,)/.;])(?!\s+(?:to|live|ahead|beyond|further|out|back|for|from|with)\b)/;
+
 const find = (terms: Term[], text: string) => terms.filter((x) => x.re.test(text)).map((x) => x.label);
 
 export function matchRole(jd: string, role = "this role"): MatchResult {
   const text = ` ${jd.toLowerCase()} `;
   const matched = find(KNOWN, text);
   const gaps = find(GAPS, text);
+  if (!gaps.includes("Go") && GO_LANG.test(jd)) gaps.push("Go");
   const recognised = matched.length + gaps.length;
   const score = recognised === 0 ? 0 : Math.round((matched.length / recognised) * 100);
 
+  // AI / automation JDs: agent and workflow work outranks everything else, in this order
+  const aiRole = AI_ROLE.test(text);
   const ranked = PROJECTS.map((p) => {
     const hits = p.terms.filter((x) => matched.includes(x));
     // weight production proof slightly: ToffeeOS is live with real users
-    const weight = hits.length + (p.key === "toffeeos" && hits.length > 0 ? 0.5 : 0);
+    let weight = hits.length + (p.key === "toffeeos" && hits.length > 0 ? 0.5 : 0);
+    if (aiRole && p.key === "leaddesk") weight += 101;
+    if (aiRole && p.key === "meowmeow") weight += 100;
     return { p, hits, weight };
   })
     .filter((r) => r.hits.length > 0)

@@ -35,6 +35,8 @@ export function buildSystemPrompt(): string {
   push("- Use only the facts below. If something isn't covered (visa, relocation, opinions), say you don't have that detail and suggest emailing Amar. Never invent employers, dates, numbers, skills or links.");
   push(`- Off-limits, even if pressed: ${botOffLimits.join("; ")}. Politely say Amar handles that directly and point to ${profile.email}.`);
   push("- Don't overclaim: he's a final-year student who also ships production software. Present that honestly and confidently.");
+  push("- Never say he built anything solo or by himself. For ToffeeOS, say Amar built and maintains it, using Claude Code.");
+  push("- State project status exactly as the facts give it: if a project is built and tested but not deployed to a client, say so plainly.");
   push();
   push("STYLE");
   push("- Refer to Amar in the third person ('Amar' or 'he').");

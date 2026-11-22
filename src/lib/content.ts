@@ -10,8 +10,9 @@
  * the site reads this, so update it here only. Leave `value` null to hide the number.
  */
 export const ordersPerDay: { value: string | null; asOf: string } = {
-  // pulse avgDailyOrders30d = 82.4 on 2026-11-21 (ACTIVE tenants, voided/cancelled excluded)
-  value: "80+",
+  // pulse avgDailyOrders30d = 82.4 on 2026-11-21, 79 on 2026-11-22 (ACTIVE tenants, voided/cancelled excluded).
+  // "~80" stays true while the live average drifts a little either side of 80; never use "80+".
+  value: "~80",
   asOf: "Nov 2026",
 };
 const ORDERS = ordersPerDay.value;
@@ -35,7 +36,7 @@ export const profile = {
   graduation: "July 2027",
   headline: "Software that real businesses run on.",
   intro:
-    `I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés run every order through the restaurant system I built${ORDERS ? ` (${ORDERS} a day, 30-day average)` : ""}, and I’ve shipped software for 20+ clients since 2024.`,
+    `I’m Amar, a final-year CS student at COMSATS Islamabad. Two cafés run every order through the restaurant system I built${ORDERS ? ` (${ORDERS} orders a day, 30-day avg)` : ""}, and I’ve shipped software for 20+ clients since 2024.`,
 };
 
 /** The hero's code-style status card. Only facts stated elsewhere on the site. */
@@ -58,7 +59,7 @@ export const stats = [
     : { value: "~5,000", label: "real orders processed on ToffeeOS" },
   { value: "561", label: "automated tests before every release" },
   { value: "1,000", label: "resumes ranked in a single batch" },
-  { value: "20+", label: "paying clients since 2024" },
+  { value: "20+", label: "clients since 2024" },
 ];
 
 /** Short proof points on the portrait tile. */
@@ -73,7 +74,7 @@ export const productionStats = [
   { value: "2", label: "cafés live on ToffeeOS: SPILL and Loom" },
   { value: "~5,000", label: "real orders processed in production" },
   { value: "~4,500", label: "real payments processed in production" },
-  { value: "3 yrs", label: "shipping software for paying clients" },
+  { value: "3 yrs", label: "shipping software for clients" },
 ];
 
 export const flagship = {
@@ -282,6 +283,7 @@ export const stack = [
   { group: "Web", items: ["Next.js", "React", "Node.js", "Tailwind CSS"] },
   { group: "APIs", items: ["FastAPI", "Flask"] },
   { group: "Data", items: ["PostgreSQL", "Supabase", "Prisma"] },
+  { group: "AI & Automation", items: ["n8n", "Gemini API", "Google Sheets / Gmail APIs", "Claude Code"] },
   { group: "Testing", items: ["Playwright", "Vitest", "pytest"] },
   { group: "ML & Vision", items: ["PyTorch", "OpenCV"] },
   { group: "Mobile", items: ["Flutter"] },
@@ -305,12 +307,14 @@ export const botExtras: string[] = [
   "He started Krimsols because local businesses were running on paper and WhatsApp and he knew he could build them something better. That's how ToffeeOS was born.",
   "Graduates with a BS in Computer Science from COMSATS University Islamabad in July 2027, while running Krimsols.",
   // How he works
-  "Owns things end to end: he built ToffeeOS, shipped it to real cafés and still maintains it in production.",
+  "ToffeeOS: Amar built and maintains it, using Claude Code, and shipped it to two real cafés where it runs in production. Never describe it as built solo or by himself.",
   "Ships fast because he builds with AI coding agents like Claude Code every day.",
   "Tests before he trusts: his automations retry on failure, check AI output before anything goes out, and alert a person when something breaks.",
   // Proudest work and what's next
   "ToffeeOS (Next.js, TypeScript, Postgres) has processed about 5,000 real orders and 4,500 real payments in production.",
   "Also built a construction-tracking desktop app with cloud backup.",
+  // Status of specific projects (answer plainly if asked)
+  "Lead Desk (the n8n lead-scoring and auto-reply workflow) is built and tested, not yet deployed to a client. If asked whether a real client uses it, say exactly that: \"It's built and tested, not yet deployed to a client.\"",
   "Next, he wants to build AI agents and vision systems that small businesses can actually rely on with real customers, in the languages those customers speak.",
   // Outside work
   "Speaks English and Urdu (his bots also reply in Arabic, but he doesn't speak it himself).",
@@ -345,7 +349,7 @@ export const suggestedQuestions = [
  * Which tools each featured project actually uses (labels match `stack` items).
  * Drives the Stack filter and the Role-Fit Matcher, so keep it truthful.
  */
-export type ProjectKey = "toffeeos" | "recruitai" | "autotwin" | "dentalos" | "echallan";
+export type ProjectKey = "toffeeos" | "recruitai" | "leaddesk" | "meowmeow" | "autotwin" | "dentalos" | "echallan";
 
 export const projectTech: Record<ProjectKey, { title: string; anchor: string; tech: string[] }> = {
   toffeeos: {
@@ -354,6 +358,8 @@ export const projectTech: Record<ProjectKey, { title: string; anchor: string; te
     tech: ["TypeScript", "Next.js", "React", "Node.js", "PostgreSQL", "Supabase", "Prisma", "Playwright", "Vitest", "Git", "Vercel"],
   },
   recruitai: { title: "RecruitAI", anchor: "work", tech: ["Python", "Flask", "Git", "Vercel"] },
+  leaddesk: { title: "Lead Desk", anchor: "hackathons", tech: ["n8n", "Gemini API", "Google Sheets / Gmail APIs"] },
+  meowmeow: { title: "Meow Meow AI Front Desk", anchor: "hackathons", tech: ["n8n", "Gemini API", "Google Sheets / Gmail APIs"] },
   autotwin: { title: "AutoTwin", anchor: "work", tech: ["Python", "FastAPI", "Flutter", "Git"] },
   dentalos: { title: "DentalOS", anchor: "work", tech: ["TypeScript", "Next.js", "React", "PostgreSQL", "Supabase", "Git"] },
   echallan: { title: "Automated E-Challan", anchor: "work", tech: ["Python", "OpenCV", "Git"] },

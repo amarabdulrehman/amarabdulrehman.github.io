@@ -66,7 +66,7 @@ export function Websites() {
               Client work <span className="text-muted">&amp; web prototypes.</span>
             </>
           }
-          summary="Fast, mobile-first sites for cafés, restaurants, and local businesses—featuring live production deployments and interactive client prototypes."
+          summary="Fast, mobile-first sites for cafés, restaurants, and local businesses—featuring a live production site and interactive prototypes."
         />
 
         {production.map((w) => (

@@ -77,7 +77,7 @@ export default function ToffeeOSCaseStudy() {
 
           <FactRow
             facts={[
-              ["Role", "Sole engineer, end to end"],
+              ["Role", "I built and maintain it, using Claude Code"],
               ["Clients", "SPILL & Loom, Bahawalpur"],
               ["Stack", "Next.js · Prisma · Supabase"],
               ["Status", "In production"],
@@ -218,7 +218,7 @@ export default function ToffeeOSCaseStudy() {
                 ))}
               </ul>
               <p>
-                ToffeeOS is one of the products I’ve shipped through Krimsols, alongside software for 20+ paying clients since 2024.
+                ToffeeOS is one of the products I’ve shipped through Krimsols, alongside software for 20+ clients since 2024.
               </p>
             </Chapter>
           </div>

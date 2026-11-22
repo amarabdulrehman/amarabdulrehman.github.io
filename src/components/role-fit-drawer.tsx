@@ -185,7 +185,7 @@ function RoleFit() {
               </ul>
               {result.gaps.length > 0 && (
                 <>
-                  <p className="eyebrow mt-4">Not on his list yet</p>
+                  <p className="eyebrow mt-4">Not yet ({result.gaps.length})</p>
                   <ul className="mt-2 flex flex-wrap gap-1.5">
                     {result.gaps.map((m) => (
                       <li key={m} className="rounded-full px-2.5 py-1 font-mono text-[12px] text-muted shadow-[inset_0_0_0_1px_var(--line)]">
